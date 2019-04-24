@@ -16,7 +16,7 @@ namespace OverloadServerTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main(args));
+            Application.Run(new OSTMainForm(args));
         }
     }
 }

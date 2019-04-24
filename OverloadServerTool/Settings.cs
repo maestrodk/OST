@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OverloadServerTool
 {
-    public partial class Main 
+    public partial class OSTMainForm 
     {
         private Color activeTextBoxColor;
         private Color inactiveTextBoxColor;
@@ -92,7 +92,7 @@ namespace OverloadServerTool
             set { Properties.Settings.Default.StartMinimized = value; }
         }
 
-        public bool TrayOnly
+        public bool TrayInsteadOfTaskBar
         {
             get { return Properties.Settings.Default.TrayOnly; }
             set { Properties.Settings.Default.TrayOnly = value; }
@@ -116,7 +116,7 @@ namespace OverloadServerTool
             UseEmbeddedOlproxy.Checked = OlproxyEmbedded;
 
             AutoStart.Checked = StartWithWindows;
-            UseTrayIcon.Checked = TrayOnly;
+            UseTrayIcon.Checked = TrayInsteadOfTaskBar;
 
             AutoStart.Checked = StartWithWindows;
             SelectDark.Checked = DarkTheme;
@@ -127,10 +127,10 @@ namespace OverloadServerTool
             SignOff.Checked = OlproxySignOff;
             IsServer.Checked = OlproxyIsServer;
 
-            SelectDarkTheme();
+            SetTheme();
         }
 
-        private void SelectDarkTheme()
+        private void SetTheme()
         {
             if (DarkTheme)
             {
@@ -151,18 +151,23 @@ namespace OverloadServerTool
                 inactiveTextBoxColor = Color.Coral;
             }
 
-            SetDarkThemeColors(this);
+            // Set the active theme (recursively).
+            ApplyThemeToControl(this);
 
             ValidateSettings();
         }
 
-        private void SetDarkThemeColors(Control control)
+        /// <summary>
+        /// Recursively set control colors based on type.
+        /// </summary>
+        /// <param name="control"></param>
+        private void ApplyThemeToControl(Control control)
         {
             if (control.Controls.Count > 0)
             {
                 foreach (Control child in control.Controls)
                 {
-                    SetDarkThemeColors(child);
+                    ApplyThemeToControl(child);
                 }
             }
 
@@ -200,6 +205,10 @@ namespace OverloadServerTool
             }
         }
 
+        /// <summary>
+        /// Override default enabled/disabled colors for a Button control.
+        /// </summary>
+        /// <param name="control"></param>
         void ValidateButton(Control control)
         {
             if (control.Enabled)

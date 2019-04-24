@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Elevate.cs" />
     <Compile Include="Logging.cs">
       <SubType>Form</SubType>
     </Compile>

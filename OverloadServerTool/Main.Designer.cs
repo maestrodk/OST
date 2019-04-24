@@ -1,6 +1,6 @@
 ﻿namespace OverloadServerTool
 {
-    partial class Main
+    partial class OSTMainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -294,7 +294,6 @@
             this.IsServer.TabIndex = 8;
             this.IsServer.Text = "Make server visible on tracker";
             this.IsServer.UseVisualStyleBackColor = true;
-            this.IsServer.CheckedChanged += new System.EventHandler(this.IsServer_CheckedChanged);
             // 
             // ServerName
             // 
@@ -312,7 +311,6 @@
             this.ServerNotes.Name = "ServerNotes";
             this.ServerNotes.Size = new System.Drawing.Size(222, 68);
             this.ServerNotes.TabIndex = 7;
-            this.ServerNotes.TextChanged += new System.EventHandler(this.ServerNotes_TextChanged);
             // 
             // TrackerBaseUrl
             // 

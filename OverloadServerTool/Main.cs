@@ -1,68 +1,76 @@
-﻿using IWshRuntimeLibrary;
-using olproxy;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using IWshRuntimeLibrary;
+
+using olproxy;
 
 namespace OverloadServerTool
 {
-    public partial class Main : Form
+    public partial class OSTMainForm : Form
     {
-        private bool launched = false;
+        private bool autoStart = false;
         private ListBoxLog listBoxLog;
 
         private OlproxyProgram olproxyTask = null;
         private Thread olproxyThread = null;
 
-        Dictionary<string, object> olproxyConfig = new Dictionary<string, object>();
+        // This matches MJDict defined on Olproxy.
+        private Dictionary<string, object> olproxyConfig = new Dictionary<string, object>();
 
+        // Shortcut link for Startup folde (if file exists the autostart is enabled).
         private string shortcutFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "OverLoadTool AutoStart.lnk");
 
-        public Main(string[] args)
+        public OSTMainForm(string[] args)
         {
             foreach (string a in args)
             {
-                if (a.ToLower().Contains("-launched")) launched = true;
+                if (a.ToLower().Contains("-launched")) autoStart = true;
             }
 
             InitializeComponent();
 
+            // Load user preferences.
             LoadSettings();
 
+            // Reflect autostart option (if shortcut exist then is is enabled).
             AutoStart.Checked = System.IO.File.Exists(shortcutFileName);
 
-            // Setup OlproxyProgram instance before attempting to start embedded Olproxy thread.
+            // Prepare embedded OlproxyProgram instance before attempting to start thread.
             olproxyTask = new OlproxyProgram();
             olproxyTask.SetLogger(InfoLogMessage);
 
+            // Create properties for Olproxy thread (will be update from TextBox fields whenever Olproxy is restarted).
             olproxyConfig.Add("isServer", IsServer.Checked);
             olproxyConfig.Add("signOff", SignOff.Checked);
             olproxyConfig.Add("trackerBaseUrl", TrackerBaseUrl.Text);
             olproxyConfig.Add("serverName", ServerName.Text);
             olproxyConfig.Add("notes", ServerNotes.Text);
             
-            // Start logging.
+            // Start logging (default is paused state, will be enabled when startup is complete).
             InitLogging(ActivityLogListBox);
-            listBoxLog.Paused = false;
 
-            SelectDarkTheme();
+            // Reflect selected theme settings.
+            SetTheme();
         }
 
+        /// <summary>
+        /// Starts embedded Olproxy.
+        /// </summary>
         private void OlproxyThread()
         {
             olproxyTask.Run(new string[1] { OverloadArgs.Text }, UpdateOlproxyConfig());
         }
 
+        /// <summary>
+        /// Refresh and return Olproxy configuration object.
+        /// </summary>
+        /// <returns>A dictionary object matching MJDict</returns>
         private Dictionary<string, object> UpdateOlproxyConfig()
         {
             olproxyConfig["isServer"] = IsServer.Checked;
@@ -73,6 +81,9 @@ namespace OverloadServerTool
             return olproxyConfig;
         }
 
+        /// <summary>
+        /// Start emnbedded Olproxy thread.
+        /// </summary>
         private void StartOlproxyThread()
         {
             UpdateOlproxyConfig();
@@ -81,6 +92,9 @@ namespace OverloadServerTool
             olproxyThread.Start();
         }
 
+        /// <summary>
+        /// Try to gracefully shutdown Olproxy thread.
+        /// </summary>
         private void KillOlproxyThread()
         {
             if (olproxyThread != null)
@@ -97,6 +111,9 @@ namespace OverloadServerTool
             }
         }
 
+        /// <summary>
+        /// Background logging monitor. Sets GroupBox titles to reflect running status.
+        /// </summary>
         private void ActivityBackgroundMonitor()
         {
             while (true)
@@ -108,42 +125,32 @@ namespace OverloadServerTool
                     string olproxyName = Path.GetFileNameWithoutExtension(OlproxyExecutable.Text).ToLower();
                     string overloadName = Path.GetFileNameWithoutExtension(OverloadExecutable.Text).ToLower();
 
-                    //string message = "";
-
                     if (UseEmbeddedOlproxy.Checked)
                     {
                         if ((olproxyTask.KillFlag == false) && ((olproxyThread != null) && olproxyThread.IsAlive))
                         {
-                            //message = "Olproxy is running, ";
                             OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = "Olproxy [running]"));
                         }
                         else
                         {
-                            // message = "Olproxy is not running, ";
                             OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = "Olproxy [stopped]"));
                         }
                     }
                     else
                     {
-                        //message = "Olproxy is " + ((GetRunningProcess(olproxyName) != null) ? "running, " : "not running, ");
                         OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = ((GetRunningProcess(olproxyName) != null) ? "Olproxy [running]" : "Olproxy [stopped]")));
                     }
 
                     OverloadGroupBox.Invoke(new Action(() => OverloadGroupBox.Text = ((GetRunningProcess(overloadName) != null) ? "Overload [running]" : "Overload [stopped]")));
-
-                    // message += "Overload is " + ((GetRunningProcess(overloadName) != null) ? "running." : "not running.");
-
-                    // if (message.Contains(" not ")) WarningLogMessage(message);
-                    // else InfoLogMessage(message);
                 }
             }
         }
 
-        private bool IsAutoStartSet()
-        {
-            return System.IO.File.Exists(shortcutFileName);
-        }
-
+        /// <summary>
+        /// Creates or deletes shortcut link to startup OST.
+        /// </summary>
+        /// <param name="create"></param>
+        /// <returns></returns>
         private bool SetAutoStartup(bool create)
         {
             if (create)
@@ -156,17 +163,17 @@ namespace OverloadServerTool
                     WshShell myShell = new WshShell();
                     WshShortcut myShortcut = (WshShortcut)myShell.CreateShortcut(shortcutFileName);
 
-                    myShortcut.TargetPath = shortcutTarget;                 // The exe file this shortcut executes when double clicked.
-                    myShortcut.IconLocation = shortcutTarget + ",0";        // Sets the icon of the shortcut to the application icon.
-                    myShortcut.WorkingDirectory = Application.StartupPath;  // The working directory..
-                    myShortcut.Arguments = "-launched";                     // The arguments used when executing the application.
-                    myShortcut.Save();                                      // Creates the shortcut.
+                    myShortcut.TargetPath = shortcutTarget;                 // Shortcut to OverloadServerTool.exe.
+                    myShortcut.IconLocation = shortcutTarget + ",0";        // Use default application icon.
+                    myShortcut.WorkingDirectory = Application.StartupPath;  // Working directory.
+                    myShortcut.Arguments = "-launched";                     // Parameters sent to OverloadServerTool.exe.
+                    myShortcut.Save();                                      // Create shortcut.
 
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Unable to create autostart shortcut!");
+                    MessageBox.Show($"Unable to create autostart shortcut: {ex.Message}");
                 }
 
                 return false;
@@ -180,7 +187,7 @@ namespace OverloadServerTool
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Unable to remove autostart shortcut!");
+                    MessageBox.Show($"Unable to remove autostart shortcut: {ex.Message}");
                 }
 
                 return true;
@@ -189,10 +196,14 @@ namespace OverloadServerTool
 
         private void Main_Load(object sender, EventArgs e)
         {
+            // Create/delete autostart shortcut.
             AutoStart_CheckedChanged(null, null);
+
+            // Make sure no text is selected.
             OverloadExecutable.Focus();
             OverloadExecutable.Select(0, 0);
 
+            // Relt
             ValidateSettings();
 
             InfoLogMessage("Overload Server Tool " + Assembly.GetExecutingAssembly().GetName().Version.ToString(3) + " by Søren Michélsen.");
@@ -201,7 +212,7 @@ namespace OverloadServerTool
             OverloadServerToolNotifyIcon.Icon = SystemIcons.Application;
             this.ShowInTaskbar = !UseTrayIcon.Checked;
 
-            if (launched)
+            if (autoStart)
             {
                 if (UseTrayIcon.Checked)
                 {
@@ -487,13 +498,19 @@ namespace OverloadServerTool
 
         private void SelectDark_CheckedChanged(object sender, EventArgs e)
         {
-            // Must suspend log while changing theme.
-            if (listBoxLog != null) listBoxLog.Paused = true;
-            if (listBoxLog != null) listBoxLog.SetDarkTheme(DarkTheme = SelectDark.Checked);
+            // Must suspend log while changing theme to avoid 'discoloring' 
+            // if a background monitor fires an event at the same time.
+            if (listBoxLog != null)
+            {
+                listBoxLog.Paused = true;
+                listBoxLog.SetDarkTheme(DarkTheme = SelectDark.Checked);
+            }
 
-            SelectDarkTheme();
+            SetTheme();
+
             InfoLogMessage((DarkTheme) ? "Dark theme selected." : "Light theme selected selected.");
 
+            // Unpause logging.
             if (listBoxLog != null) listBoxLog.Paused = false;
         }
 
@@ -547,19 +564,16 @@ namespace OverloadServerTool
                 Process process = GetRunningProcess(olproxyName);
                 if (process != null)
                 {
-                    // InfoLogMessage("Shutting down Olproxy application.");
-
-                    // Kill Olproxy application then start embedded Olproxy task.
+                    // Kill running Olproxy application. 
                     process.Kill();
 
-                    // InfoLogMessage("Starting embedded Olproxy task.");
-
+                    // Start embedded Olproxy task.
                     StartOlproxyThread();
                 }
             }
             else
             {
-                // Kill Olproxy task if it is running.
+                // Kill Olproxy task.
                 if ((olproxyTask.KillFlag == false) && ((olproxyThread != null) && olproxyThread.IsAlive))
                 {
                     KillOlproxyThread();
@@ -568,17 +582,25 @@ namespace OverloadServerTool
             }
         }
 
-        private void IsServer_CheckedChanged(object sender, EventArgs e)
-        {
-        }
-
+        /// <summary>
+        /// Ünselect listbox item if mouse leaves the listbox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ActivityLogListBox_MouseLeave(object sender, EventArgs e)
         {
             ActivityLogListBox.SetSelected(0, false);
         }
 
+
+        /// <summary>
+        /// Show selected listbox item if mouse (re)enters the listbox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Main_MouseEnter(object sender, EventArgs e)
         {
+            // For some reason this doesn't work?
             ActivityLogListBox.SetSelected(0, false);
         }
 
@@ -586,7 +608,7 @@ namespace OverloadServerTool
         {
             if (WindowState == FormWindowState.Minimized)
             {
-                // Send to tray or minimize?
+                // Tray or minimize to task bar?
                 if (UseTrayIcon.Checked)
                 {
                     Hide();
@@ -600,10 +622,6 @@ namespace OverloadServerTool
             Show();
             OverloadServerToolNotifyIcon.Visible = false;
             WindowState = FormWindowState.Normal;
-        }
-
-        private void ServerNotes_TextChanged(object sender, EventArgs e)
-        {
         }
     }
 }
