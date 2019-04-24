@@ -12,7 +12,7 @@ Olproxy makes it possible to run host Overload LAN games over the Internet.
 
 OST is a Windows front end that makes it a bit easier 
 
-####OST has the following features:
+#### OST has the following features:
 
 - Contains embedded Olproxy code (so Olproxy.exe is not needed)
 
