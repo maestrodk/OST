@@ -1,0 +1,48 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OverloadServerTool.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="OverloadPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\Overload\Overload.exe</Value>
+    </Setting>
+    <Setting Name="OlproxyPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\Overload\Olproxy.exe</Value>
+    </Setting>
+    <Setting Name="DarkTheme" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StartWithWindows" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StartMinimized" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TrayOnly" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="OverloadParameters" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-nographics -batchmode -nolog</Value>
+    </Setting>
+    <Setting Name="OlproxyParameters" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-v</Value>
+    </Setting>
+    <Setting Name="EmbeddedOlproxy" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="isServer" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="signOff" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="trackerBaseUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://olproxy.otl.gg</Value>
+    </Setting>
+    <Setting Name="serverName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">An Overload Game Server</Value>
+    </Setting>
+    <Setting Name="notes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Information about your server, such as geographical location, hardware, bandwidth etc.</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
