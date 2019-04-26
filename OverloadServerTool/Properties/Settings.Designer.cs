@@ -25,7 +25,7 @@ namespace OverloadServerTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\Overload\\Overload.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string OverloadPath {
             get {
                 return ((string)(this["OverloadPath"]));
@@ -37,7 +37,7 @@ namespace OverloadServerTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\Overload\\Olproxy.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string OlproxyPath {
             get {
                 return ((string)(this["OlproxyPath"]));
@@ -97,7 +97,7 @@ namespace OverloadServerTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-nographics -batchmode -nolog")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-nographics -batchmode -singleinstance -nolog")]
         public string OverloadParameters {
             get {
                 return ((string)(this["OverloadParameters"]));
@@ -169,7 +169,7 @@ namespace OverloadServerTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("An Overload Game Server")]
+        [global::System.Configuration.DefaultSettingValueAttribute("My Overload Server")]
         public string serverName {
             get {
                 return ((string)(this["serverName"]));

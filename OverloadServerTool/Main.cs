@@ -14,17 +14,22 @@ namespace OverloadServerTool
 {
     public partial class OSTMainForm : Form
     {
+        private bool DebugLogging = false;
+
         private bool autoStart = false;
         private ListBoxLog listBoxLog;
 
         private OlproxyProgram olproxyTask = null;
         private Thread olproxyThread = null;
 
+        private OverloadMapManager mapManager = new OverloadMapManager();
+        private Thread mapManagerThread = null;
+
         // This matches MJDict defined on Olproxy.
         private Dictionary<string, object> olproxyConfig = new Dictionary<string, object>();
 
         // Shortcut link for Startup folde (if file exists the autostart is enabled).
-        private string shortcutFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "OverLoadTool AutoStart.lnk");
+        private string shortcutFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "OverLoad Server Tool AutoStart.lnk");
 
         public OSTMainForm(string[] args)
         {
@@ -37,6 +42,7 @@ namespace OverloadServerTool
 
             // Load user preferences.
             LoadSettings();
+            ValidateSettings();
 
             // Reflect autostart option (if shortcut exist then is is enabled).
             AutoStart.Checked = System.IO.File.Exists(shortcutFileName);
@@ -44,6 +50,9 @@ namespace OverloadServerTool
             // Prepare embedded OlproxyProgram instance before attempting to start thread.
             olproxyTask = new OlproxyProgram();
             olproxyTask.SetLogger(InfoLogMessage);
+
+            // Set logging for map manager.
+            mapManager.SetLogger(InfoLogMessage, ErrorLogMessage);
 
             // Create properties for Olproxy thread (will be update from TextBox fields whenever Olproxy is restarted).
             olproxyConfig.Add("isServer", IsServer.Checked);
@@ -203,12 +212,18 @@ namespace OverloadServerTool
             OverloadExecutable.Focus();
             OverloadExecutable.Select(0, 0);
 
-            // Relt
+            // Check settings and update buttons.
             ValidateSettings();
 
             InfoLogMessage("Overload Server Tool " + Assembly.GetExecutingAssembly().GetName().Version.ToString(3) + " by Søren Michélsen.");
             InfoLogMessage("Olproxy by Arne de Bruijn.");
 
+            // Start updating maps in a separate thread.
+            mapManagerThread = new Thread(UpdateMapThread);
+            mapManagerThread.IsBackground = true;
+            mapManagerThread.Start();
+
+            // Check for startup options.
             OverloadServerToolNotifyIcon.Icon = SystemIcons.Application;
             this.ShowInTaskbar = !UseTrayIcon.Checked;
 
@@ -227,6 +242,17 @@ namespace OverloadServerTool
                 this.WindowState = FormWindowState.Normal;
                 this.ShowInTaskbar = true;
             }
+        }
+
+
+        /// <summary>
+        /// Update maps in the background.
+        /// </summary>
+        private void UpdateMapThread()
+        {
+            VerboseLogMessage(String.Format("Checking for new/updated maps at https://www.overloadmaps.com."));
+            mapManager.Update();
+            VerboseLogMessage(String.Format($"Map check finished."));
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -394,6 +420,7 @@ namespace OverloadServerTool
                 return true;
             }
 
+            // Update JSON configuration file for standalone Olproxy (first check to make sure folder exists).
             string olproxyWorkingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Olproxy");
             if (!Directory.Exists(olproxyWorkingDirectory)) Directory.CreateDirectory(olproxyWorkingDirectory);
 
@@ -467,6 +494,8 @@ namespace OverloadServerTool
         // Return process if instance is active otherwise return null.
         private Process GetRunningProcess(string name)
         {
+            if (String.IsNullOrEmpty(name)) return null;
+
             foreach (Process process in Process.GetProcesses())
             {
                 if (!process.ProcessName.ToLower().Contains("overloadservertool"))
@@ -591,7 +620,6 @@ namespace OverloadServerTool
         {
             ActivityLogListBox.SetSelected(0, false);
         }
-
 
         /// <summary>
         /// Show selected listbox item if mouse (re)enters the listbox.

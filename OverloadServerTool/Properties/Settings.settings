@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="OverloadPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Program Files\Overload\Overload.exe</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="OlproxyPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Program Files\Overload\Olproxy.exe</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DarkTheme" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -21,7 +21,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="OverloadParameters" Type="System.String" Scope="User">
-      <Value Profile="(Default)">-nographics -batchmode -nolog</Value>
+      <Value Profile="(Default)">-nographics -batchmode -singleinstance -nolog</Value>
     </Setting>
     <Setting Name="OlproxyParameters" Type="System.String" Scope="User">
       <Value Profile="(Default)">-v</Value>
@@ -39,7 +39,7 @@
       <Value Profile="(Default)">http://olproxy.otl.gg</Value>
     </Setting>
     <Setting Name="serverName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">An Overload Game Server</Value>
+      <Value Profile="(Default)">My Overload Server</Value>
     </Setting>
     <Setting Name="notes" Type="System.String" Scope="User">
       <Value Profile="(Default)">Information about your server, such as geographical location, hardware, bandwidth etc.</Value>

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Resources;
 using System.Text;
@@ -9,7 +11,7 @@ using System.Windows.Forms;
 
 namespace OverloadServerTool
 {
-    public partial class OSTMainForm 
+    public partial class OSTMainForm
     {
         private Color activeTextBoxColor;
         private Color inactiveTextBoxColor;
@@ -105,6 +107,76 @@ namespace OverloadServerTool
 
         public void LoadSettings()
         {
+            // Attempt to find Overload installation path.
+            // First verify the current setting.
+            if (!String.IsNullOrEmpty(OverloadPath)) if (!File.Exists(OverloadPath)) OverloadPath = null;
+            
+            if (String.IsNullOrEmpty(OverloadPath))
+            {
+                string steamLocation = null;
+                string gogLocation = null;
+                string dvdLocation = null;
+
+                // Check for a STEAM install of Overload.
+                using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                {
+                    using (var key = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 448850"))
+                    {
+                        if (key != null)
+                        {
+                            steamLocation = (string)key.GetValue("InstallLocation");
+                            if (!File.Exists(Path.Combine(steamLocation, "overload.exe"))) steamLocation = null;
+
+                            if (String.IsNullOrEmpty(steamLocation))
+                            {
+                                steamLocation = (string)key.GetValue("UninstallString");
+                                if (!String.IsNullOrEmpty(steamLocation))
+                                {
+                                    string[] parts = steamLocation.Split("\"".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                                    if (parts.Length > 1) steamLocation = Path.Combine(Path.GetDirectoryName(parts[0]), @"steamapps\common\Overload");
+                                    else steamLocation = null;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Check for a GOG install of Overload.
+                using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                {
+                    using (var key = hklm.OpenSubKey(@"SOFTWARE\WOW6432Node\GOG.com\Games\1309632191"))
+                    {
+                        if (key != null) gogLocation = (string)key.GetValue("Path");
+                        if (!String.IsNullOrEmpty(gogLocation)) if(!File.Exists(Path.Combine(gogLocation, "overload.exe"))) gogLocation = null;
+                    }
+                }
+
+                // Check for a DVD install of Overload (KickStarter backer DVD).
+                using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                {
+                    using (var key = hklm.OpenSubKey(@"SOFTWARE\WOW6432Node\Revival Productions, LLC\Overload"))
+                    {
+                        if (key != null) dvdLocation = (string)key.GetValue("Path");
+                        if (!String.IsNullOrEmpty(dvdLocation)) if (!File.Exists(Path.Combine(dvdLocation, "overload.exe"))) dvdLocation = null;
+                    }
+                }
+
+                string initPath = steamLocation ?? gogLocation ?? dvdLocation;
+
+                if (String.IsNullOrEmpty(initPath)) initPath = "";
+
+                string olmodFileName = Path.Combine(initPath, "olmod.exe");
+                string overloadFileName = Path.Combine(initPath, "overload.exe");
+                string olproxyFileName = Path.Combine(initPath, "olproxy.exe");
+
+                // Set Overload/Olmod path.
+                if (File.Exists(olmodFileName)) OverloadPath = olmodFileName;
+                else OverloadPath = overloadFileName;
+
+                // Set Olproxy path.
+                OlproxyPath = olproxyFileName;
+            }
+
             OverloadExecutable.Text = OverloadPath;
             OverloadArgs.Text = OverloadParameters;
 
@@ -127,7 +199,12 @@ namespace OverloadServerTool
             SignOff.Checked = OlproxySignOff;
             IsServer.Checked = OlproxyIsServer;
 
+            // The theme colors MUST be set BEFORE attempting to validate settings.
+            // This is because ValidateSettings() checks the button colors to see if
+            // it is safe to start any of the .exe files.
             SetTheme();
+
+            ValidateSettings();
         }
 
         private void SetTheme()
