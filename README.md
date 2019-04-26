@@ -24,6 +24,10 @@ OST is a Windows front end that makes it a bit easier
 
 - Supports (via Olproxy) announcing your game at http://olproxy.otl.gg/
 
+- Includes an automatic map updater (run upon startup) to keep server maps up-2-date
+
+- Includes a standalone map updater console app
+
 - Light/dark themes
 
 - Autostart option (if your Windows box is set to user autologin)
