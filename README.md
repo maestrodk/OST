@@ -1,6 +1,6 @@
 # OST - Overload Server Tool
 
-**The easy way to use Olproxy with Overload on Windows**
+**The easy way to use Olproxy and Olmod with Overload on Windows**
 
 [Overload](https://playoverload.com) is a registered trademark of [Revival Productions, LLC](https://www.revivalprod.com).
 
