@@ -61,17 +61,21 @@ namespace OverloadServerTool
         /// <summary>
         /// Get online master map list.
         /// </summary>
-        public bool Update(string onlineMapList = null)
+        public bool Update(string onlineMapList = null, string overloadDLCLocation = null)
         {
             if (String.IsNullOrEmpty(onlineMapList)) onlineMapList = defaultOnlineMapList;
 
             string overloadMapLocation = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Revival\Overload";
+            
             List<OverloadMap> master = new List<OverloadMap>();
 
             try
             {
                 // Make sure Revival Overload map directory exists.
                 Directory.CreateDirectory(overloadMapLocation);
+
+                // Make sure Revival DLC directory exists.
+                if (!String.IsNullOrEmpty(overloadDLCLocation)) Directory.CreateDirectory(overloadDLCLocation);
 
                 // Get base so we can construct full url to the online ZIP files.
                 Uri uri = new Uri(onlineMapList); 
@@ -99,40 +103,48 @@ namespace OverloadServerTool
             int ok = 0, bad = 0;
             for (int i = 0; i < master.Count; i++)
             {
-                if (UpdateMap(overloadMapLocation, master[i])) ok++;
+                if (UpdateMap(overloadMapLocation, overloadDLCLocation, master[i])) ok++;
                 else bad++;
             }
            return true;
         }
 
-        private bool UpdateMap(string overloadMapLocation, OverloadMap map)
+        private bool UpdateMap(string overloadMapLocation, string overloadDLCLocation, OverloadMap map)
         {
             Uri uri = new Uri(map.Url);
             string mapZipName = uri.Segments[uri.Segments.Length - 1];
 
             try
             {
+                // Update map.
                 if (!String.IsNullOrEmpty(mapZipName) && mapZipName.ToLower().EndsWith(".zip"))
                 {
-                    // Check if this map should be downloaded.
-                    bool update = false;
+                    string localDLCFileName = null;
 
                     string localZipFileName = Path.Combine(overloadMapLocation, mapZipName);
                     localZipFileName = WebUtility.UrlDecode(localZipFileName);
 
-                    if (!File.Exists(localZipFileName)) update = true;
-                    else
-                    {
-                        // Map ZIP found, check date and size.
-                        FileInfo fi = new FileInfo(localZipFileName);
-                        long localSize = fi.Length;
-                        DateTime localDateTime = fi.LastWriteTime;
+                    bool updateDLC = false;
+                    bool update = false;
 
-                        if (localSize != map.Size) update = true;
-                        else if (localDateTime != map.DateTime) update = true;
+                    // First the DLC location (if enabled).
+                    if (!String.IsNullOrEmpty(overloadDLCLocation))
+                    {
+                        localDLCFileName = Path.Combine(overloadDLCLocation, mapZipName);
+                        localDLCFileName = WebUtility.UrlDecode(localDLCFileName);
+                        updateDLC = UpdateMapFile(localDLCFileName, map);
                     }
 
-                    if (update)
+                    // Now check the ProgramData Revival folder.
+                    update = UpdateMapFile(localZipFileName, map);
+
+                    // Check results.
+                    if (updateDLC)
+                    {
+                        LogMessage(String.Format($"Updating map (using DLC folder): {WebUtility.UrlDecode(mapZipName)}"));
+                        UpdateLocalMap(map.Url, localDLCFileName, map.DateTime);
+                    }
+                    else if (update)
                     {
                         LogMessage(String.Format($"Updating map: {WebUtility.UrlDecode(mapZipName)}"));
                         UpdateLocalMap(map.Url, localZipFileName, map.DateTime);
@@ -146,6 +158,28 @@ namespace OverloadServerTool
             {
                 LogErrorMessage(String.Format($"Error updating map {mapZipName}: {ex.Message}"));
                 return false;
+            }
+        }
+
+        private bool UpdateMapFile(string localFileName, OverloadMap map)
+        {
+            string localDirectory = Path.GetDirectoryName(localFileName);
+            if (!Directory.Exists(localDirectory)) return false;
+
+            if (File.Exists(localFileName))
+            {
+                // Map ZIP file found, check date and size.
+                FileInfo fi = new FileInfo(localFileName);
+
+                if (fi.Length != map.Size) return true;
+                else if (fi.LastWriteTime != map.DateTime) return true;
+
+                return false;
+            }
+            else
+            {
+                // Directory exists but ZIP file does not.
+                return true;
             }
         }
 

@@ -31,6 +31,9 @@ namespace OverloadServerTool
         // Shortcut link for Startup folde (if file exists the autostart is enabled).
         private string shortcutFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "OverLoad Server Tool AutoStart.lnk");
 
+        // Directory for DLC.
+        private string dlcLocation = null;
+
         public OSTMainForm(string[] args)
         {
             foreach (string a in args)
@@ -66,6 +69,30 @@ namespace OverloadServerTool
 
             // Reflect selected theme settings.
             SetTheme();
+        }
+
+        /// <summary>
+        /// Update the DLC path if path to Overload gets updated by the user/load of settings.
+        /// </summary>
+        private void UpdateDLCLocation()
+        {
+            try
+            {
+                if (System.IO.File.Exists(OverloadExecutable.Text))
+                {
+                    if (Directory.Exists(Path.GetDirectoryName(OverloadExecutable.Text)))
+                    {
+                        dlcLocation = Path.Combine(Path.GetDirectoryName(OverloadExecutable.Text), "DLC");
+                        Directory.CreateDirectory(dlcLocation);
+                    }
+                    UseDLCLocationCheckBox.Enabled = true;
+                }
+            }
+            catch
+            {
+                dlcLocation = null;
+                UseDLCLocationCheckBox.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -215,13 +242,12 @@ namespace OverloadServerTool
             // Check settings and update buttons.
             ValidateSettings();
 
+            UpdateDLCLocation();
+
+            listBoxLog.Paused = false;                
+
             InfoLogMessage("Overload Server Tool " + Assembly.GetExecutingAssembly().GetName().Version.ToString(3) + " by Søren Michélsen.");
             InfoLogMessage("Olproxy by Arne de Bruijn.");
-
-            // Start updating maps in a separate thread.
-            mapManagerThread = new Thread(UpdateMapThread);
-            mapManagerThread.IsBackground = true;
-            mapManagerThread.Start();
 
             // Check for startup options.
             OverloadServerToolNotifyIcon.Icon = Properties.Resources.OST;
@@ -250,8 +276,21 @@ namespace OverloadServerTool
         private void UpdateMapThread()
         {
             VerboseLogMessage(String.Format("Checking for new/updated maps at https://www.overloadmaps.com."));
-            mapManager.Update();
+
+            if (UseDLCLocationCheckBox.Enabled && UseDLCLocationCheckBox.Checked)
+            {
+                VerboseLogMessage(String.Format("Overload DLC directory used for maps."));
+                mapManager.Update(null, dlcLocation);
+            }
+            else
+            {
+                VerboseLogMessage(String.Format("Overload ProgramData directory used for maps."));
+                mapManager.Update();
+            }
+
             VerboseLogMessage(String.Format($"Map check finished."));
+
+            MapUpdateButton.Invoke(new Action(() => MapUpdateButton.Enabled = true));
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -298,7 +337,7 @@ namespace OverloadServerTool
         {
             TestSetTextBoxColor(OverloadExecutable);
             TestSetTextBoxColor(OlproxyExecutable);
-
+          
             if (((OlproxyExecutable.ForeColor == activeTextBoxColor) || UseEmbeddedOlproxy.Checked) && (OverloadExecutable.ForeColor == activeTextBoxColor))
             {
                 // Path to Overload application is OK.
@@ -330,6 +369,7 @@ namespace OverloadServerTool
         private void OverloadExecutable_TextChanged(object sender, EventArgs e)
         {
             ValidateSettings();
+            UpdateDLCLocation();
         }
 
         private void OlproxyExecutable_TextChanged(object sender, EventArgs e)
@@ -649,6 +689,84 @@ namespace OverloadServerTool
             Show();
             OverloadServerToolNotifyIcon.Visible = false;
             WindowState = FormWindowState.Normal;
+        }
+
+        private void MapUpdateButton_Click(object sender, EventArgs e)
+        {
+            MapUpdateButton.Enabled = false;
+
+            // Start updating maps in a separate thread.
+            mapManagerThread = new Thread(UpdateMapThread);
+            mapManagerThread.IsBackground = true;
+            mapManagerThread.Start();
+        }
+
+        /// <summary>
+        /// Move maps from either of the two possible directorys.
+        /// </summary>
+        /// <param name="overloadMapLocation"></param>
+        /// <param name="dlcLocation"></param>
+        private void MoveMaps(string source, string destination)
+        {
+            string[] files = Directory.GetFiles(source, "*.zip");
+            foreach (string fileName in files)
+            {
+                // Exclude DLC content (only move maps).
+                bool move = true;
+                string test = Path.GetFileNameWithoutExtension(fileName).ToUpper();
+                if (!fileName.ToLower().EndsWith(".zip") || (test.Contains("DLC0") || test.Contains("DLC1"))) move = false;
+
+                if (move) System.IO.File.Move(Path.Combine(source, Path.GetFileName(fileName)), Path.Combine(destination, Path.GetFileName(fileName)));
+            }
+        }
+
+        private void UseDLCLocationCheckBox_Click(object sender, EventArgs e)
+        {
+            string overloadMapLocation = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Revival\Overload";
+
+            if (UseDLCLocationCheckBox.Checked == false)
+            {
+                // Setting the check mark.
+                DialogResult result = MessageBox.Show("Move existing maps to the Overload DLC directory?", "Move maps?", MessageBoxButtons.YesNoCancel);
+                switch (result)
+                {
+                    case DialogResult.Cancel:
+                        break;
+
+                    case DialogResult.No:
+                        UseDLCLocationCheckBox.Checked = true;
+                        VerboseLogMessage(String.Format("Overload DLC directory used for maps."));
+                        break;
+
+                    default:
+                        // TO-DO: Move existing maps.
+                        UseDLCLocationCheckBox.Checked = true;
+                        VerboseLogMessage(String.Format("Overload DLC directory used for maps."));
+                        MoveMaps(overloadMapLocation, dlcLocation);
+                        break;
+                }
+            }
+            else
+            {
+                // Clearing the check mark.
+                DialogResult result = MessageBox.Show("Move existing maps to [ProgramData]\\Overload\\Revival directory?", "Move maps?", MessageBoxButtons.YesNoCancel);
+                switch (result)
+                {
+                    case DialogResult.Cancel:
+                        break;
+
+                    case DialogResult.No:
+                        VerboseLogMessage(String.Format("Overload ProgramData directory used for maps."));
+                        UseDLCLocationCheckBox.Checked = false;
+                        break;
+
+                    default:
+                        VerboseLogMessage(String.Format("Overload ProgramData directory used for maps."));
+                        MoveMaps(dlcLocation, overloadMapLocation);
+                        UseDLCLocationCheckBox.Checked = false;
+                        break;
+                }
+            }
         }
     }
 }

@@ -49,20 +49,22 @@
             this.UseEmbeddedOlproxy = new System.Windows.Forms.CheckBox();
             this.OverloadGroupBox = new System.Windows.Forms.GroupBox();
             this.OlproxyGroupBox = new System.Windows.Forms.GroupBox();
-            this.IsServer = new System.Windows.Forms.CheckBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.MapUpdateButton = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
             this.ServerName = new System.Windows.Forms.TextBox();
             this.ServerNotes = new System.Windows.Forms.TextBox();
             this.TrackerBaseUrl = new System.Windows.Forms.TextBox();
-            this.SignOff = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.IsServer = new System.Windows.Forms.CheckBox();
+            this.SignOff = new System.Windows.Forms.CheckBox();
             this.OptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.UseDLCLocationCheckBox = new System.Windows.Forms.CheckBox();
             this.LoggingGroupBox = new System.Windows.Forms.GroupBox();
             this.ActionsGroupBox = new System.Windows.Forms.GroupBox();
             this.OverloadServerToolNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.OverloadGroupBox.SuspendLayout();
             this.OlproxyGroupBox.SuspendLayout();
             this.OptionsGroupBox.SuspendLayout();
@@ -244,7 +246,7 @@
             // UseEmbeddedOlproxy
             // 
             this.UseEmbeddedOlproxy.AutoSize = true;
-            this.UseEmbeddedOlproxy.Location = new System.Drawing.Point(17, 126);
+            this.UseEmbeddedOlproxy.Location = new System.Drawing.Point(17, 114);
             this.UseEmbeddedOlproxy.Name = "UseEmbeddedOlproxy";
             this.UseEmbeddedOlproxy.Size = new System.Drawing.Size(136, 17);
             this.UseEmbeddedOlproxy.TabIndex = 5;
@@ -268,6 +270,7 @@
             // OlproxyGroupBox
             // 
             this.OlproxyGroupBox.Controls.Add(this.textBox1);
+            this.OlproxyGroupBox.Controls.Add(this.MapUpdateButton);
             this.OlproxyGroupBox.Controls.Add(this.label8);
             this.OlproxyGroupBox.Controls.Add(this.ServerName);
             this.OlproxyGroupBox.Controls.Add(this.ServerNotes);
@@ -286,15 +289,37 @@
             this.OlproxyGroupBox.TabStop = false;
             this.OlproxyGroupBox.Text = "Olproxy";
             // 
-            // IsServer
+            // textBox1
             // 
-            this.IsServer.AutoSize = true;
-            this.IsServer.Location = new System.Drawing.Point(17, 79);
-            this.IsServer.Name = "IsServer";
-            this.IsServer.Size = new System.Drawing.Size(168, 17);
-            this.IsServer.TabIndex = 8;
-            this.IsServer.Text = "Make server visible on tracker";
-            this.IsServer.UseVisualStyleBackColor = true;
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.Location = new System.Drawing.Point(430, 83);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(1);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(242, 20);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.Text = "https://www.overloadmaps.com/data/mp.json";
+            this.textBox1.TextChanged += new System.EventHandler(this.OverloadExecutable_TextChanged);
+            this.textBox1.DoubleClick += new System.EventHandler(this.OverloadExecutable_MouseDoubleClick);
+            // 
+            // MapUpdateButton
+            // 
+            this.MapUpdateButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MapUpdateButton.Location = new System.Drawing.Point(682, 79);
+            this.MapUpdateButton.Name = "MapUpdateButton";
+            this.MapUpdateButton.Size = new System.Drawing.Size(59, 26);
+            this.MapUpdateButton.TabIndex = 9;
+            this.MapUpdateButton.Text = "Update";
+            this.MapUpdateButton.UseVisualStyleBackColor = true;
+            this.MapUpdateButton.Click += new System.EventHandler(this.MapUpdateButton_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(427, 66);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(99, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Master maplist URL";
             // 
             // ServerName
             // 
@@ -320,16 +345,6 @@
             this.TrackerBaseUrl.Name = "TrackerBaseUrl";
             this.TrackerBaseUrl.Size = new System.Drawing.Size(152, 20);
             this.TrackerBaseUrl.TabIndex = 7;
-            // 
-            // SignOff
-            // 
-            this.SignOff.AutoSize = true;
-            this.SignOff.Location = new System.Drawing.Point(17, 103);
-            this.SignOff.Name = "SignOff";
-            this.SignOff.Size = new System.Drawing.Size(197, 17);
-            this.SignOff.TabIndex = 6;
-            this.SignOff.Text = "Remove inactive server from tracker";
-            this.SignOff.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -358,9 +373,30 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Server name";
             // 
+            // IsServer
+            // 
+            this.IsServer.AutoSize = true;
+            this.IsServer.Location = new System.Drawing.Point(17, 67);
+            this.IsServer.Name = "IsServer";
+            this.IsServer.Size = new System.Drawing.Size(168, 17);
+            this.IsServer.TabIndex = 8;
+            this.IsServer.Text = "Make server visible on tracker";
+            this.IsServer.UseVisualStyleBackColor = true;
+            // 
+            // SignOff
+            // 
+            this.SignOff.AutoSize = true;
+            this.SignOff.Location = new System.Drawing.Point(17, 91);
+            this.SignOff.Name = "SignOff";
+            this.SignOff.Size = new System.Drawing.Size(197, 17);
+            this.SignOff.TabIndex = 6;
+            this.SignOff.Text = "Remove inactive server from tracker";
+            this.SignOff.UseVisualStyleBackColor = true;
+            // 
             // OptionsGroupBox
             // 
             this.OptionsGroupBox.Controls.Add(this.AutoStart);
+            this.OptionsGroupBox.Controls.Add(this.UseDLCLocationCheckBox);
             this.OptionsGroupBox.Controls.Add(this.SelectDark);
             this.OptionsGroupBox.Controls.Add(this.IsServer);
             this.OptionsGroupBox.Controls.Add(this.UseEmbeddedOlproxy);
@@ -372,6 +408,19 @@
             this.OptionsGroupBox.TabIndex = 13;
             this.OptionsGroupBox.TabStop = false;
             this.OptionsGroupBox.Text = "Options";
+            // 
+            // UseDLCLocationCheckBox
+            // 
+            this.UseDLCLocationCheckBox.AutoCheck = false;
+            this.UseDLCLocationCheckBox.AutoSize = true;
+            this.UseDLCLocationCheckBox.Enabled = false;
+            this.UseDLCLocationCheckBox.Location = new System.Drawing.Point(17, 137);
+            this.UseDLCLocationCheckBox.Name = "UseDLCLocationCheckBox";
+            this.UseDLCLocationCheckBox.Size = new System.Drawing.Size(201, 17);
+            this.UseDLCLocationCheckBox.TabIndex = 5;
+            this.UseDLCLocationCheckBox.Text = "Use Overload DLC directory for maps";
+            this.UseDLCLocationCheckBox.UseVisualStyleBackColor = true;
+            this.UseDLCLocationCheckBox.Click += new System.EventHandler(this.UseDLCLocationCheckBox_Click);
             // 
             // LoggingGroupBox
             // 
@@ -401,27 +450,6 @@
             this.OverloadServerToolNotifyIcon.Text = "Overload Server Tool";
             this.OverloadServerToolNotifyIcon.Visible = true;
             this.OverloadServerToolNotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OverloadServerToolNotifyIcon_MouseDoubleClick);
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(430, 83);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(1);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(313, 20);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "https://www.overloadmaps.com/data/mp.json";
-            this.textBox1.TextChanged += new System.EventHandler(this.OverloadExecutable_TextChanged);
-            this.textBox1.DoubleClick += new System.EventHandler(this.OverloadExecutable_MouseDoubleClick);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(427, 66);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(99, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Master maplist URL";
             // 
             // OSTMainForm
             // 
@@ -490,6 +518,8 @@
         private System.Windows.Forms.NotifyIcon OverloadServerToolNotifyIcon;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox UseDLCLocationCheckBox;
+        private System.Windows.Forms.Button MapUpdateButton;
     }
 }
 
