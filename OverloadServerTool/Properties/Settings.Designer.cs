@@ -133,7 +133,7 @@ namespace OverloadServerTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool isServer {
             get {
                 return ((bool)(this["isServer"]));
@@ -189,6 +189,18 @@ namespace OverloadServerTool.Properties {
             }
             set {
                 this["notes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://www.overloadmaps.com/data/mp.json")]
+        public string mapListUrl {
+            get {
+                return ((string)(this["mapListUrl"]));
+            }
+            set {
+                this["mapListUrl"] = value;
             }
         }
     }

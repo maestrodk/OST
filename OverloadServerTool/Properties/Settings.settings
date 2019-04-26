@@ -30,7 +30,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="isServer" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="signOff" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -43,6 +43,9 @@
     </Setting>
     <Setting Name="notes" Type="System.String" Scope="User">
       <Value Profile="(Default)">Information about your server, such as geographical location, hardware, bandwidth etc.</Value>
+    </Setting>
+    <Setting Name="mapListUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://www.overloadmaps.com/data/mp.json</Value>
     </Setting>
   </Settings>
 </SettingsFile>

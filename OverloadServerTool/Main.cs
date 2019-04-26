@@ -224,7 +224,7 @@ namespace OverloadServerTool
             mapManagerThread.Start();
 
             // Check for startup options.
-            OverloadServerToolNotifyIcon.Icon = SystemIcons.Application;
+            OverloadServerToolNotifyIcon.Icon = Properties.Resources.OST;
             this.ShowInTaskbar = !UseTrayIcon.Checked;
 
             if (autoStart)
@@ -243,7 +243,6 @@ namespace OverloadServerTool
                 this.ShowInTaskbar = true;
             }
         }
-
 
         /// <summary>
         /// Update maps in the background.

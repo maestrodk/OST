@@ -61,6 +61,8 @@
             this.LoggingGroupBox = new System.Windows.Forms.GroupBox();
             this.ActionsGroupBox = new System.Windows.Forms.GroupBox();
             this.OverloadServerToolNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.OverloadGroupBox.SuspendLayout();
             this.OlproxyGroupBox.SuspendLayout();
             this.OptionsGroupBox.SuspendLayout();
@@ -71,7 +73,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 67);
+            this.label1.Location = new System.Drawing.Point(11, 66);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(28, 13);
             this.label1.TabIndex = 0;
@@ -80,7 +82,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 25);
+            this.label2.Location = new System.Drawing.Point(10, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 13);
             this.label2.TabIndex = 0;
@@ -89,7 +91,7 @@
             // OverloadExecutable
             // 
             this.OverloadExecutable.BackColor = System.Drawing.Color.White;
-            this.OverloadExecutable.Location = new System.Drawing.Point(13, 39);
+            this.OverloadExecutable.Location = new System.Drawing.Point(13, 41);
             this.OverloadExecutable.Margin = new System.Windows.Forms.Padding(1);
             this.OverloadExecutable.Name = "OverloadExecutable";
             this.OverloadExecutable.Size = new System.Drawing.Size(398, 20);
@@ -99,7 +101,7 @@
             // 
             // OverloadArgs
             // 
-            this.OverloadArgs.Location = new System.Drawing.Point(13, 82);
+            this.OverloadArgs.Location = new System.Drawing.Point(13, 83);
             this.OverloadArgs.Margin = new System.Windows.Forms.Padding(2);
             this.OverloadArgs.Name = "OverloadArgs";
             this.OverloadArgs.Size = new System.Drawing.Size(398, 20);
@@ -157,7 +159,7 @@
             this.UseTrayIcon.AutoSize = true;
             this.UseTrayIcon.Checked = true;
             this.UseTrayIcon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.UseTrayIcon.Location = new System.Drawing.Point(17, 55);
+            this.UseTrayIcon.Location = new System.Drawing.Point(17, 44);
             this.UseTrayIcon.Name = "UseTrayIcon";
             this.UseTrayIcon.Size = new System.Drawing.Size(98, 17);
             this.UseTrayIcon.TabIndex = 7;
@@ -173,9 +175,9 @@
             // StartButton
             // 
             this.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.StartButton.Location = new System.Drawing.Point(12, 26);
+            this.StartButton.Location = new System.Drawing.Point(12, 19);
             this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(72, 32);
+            this.StartButton.Size = new System.Drawing.Size(75, 32);
             this.StartButton.TabIndex = 9;
             this.StartButton.Text = "Start";
             this.StartButton.UseVisualStyleBackColor = true;
@@ -184,9 +186,9 @@
             // ExitButton
             // 
             this.ExitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ExitButton.Location = new System.Drawing.Point(10, 184);
+            this.ExitButton.Location = new System.Drawing.Point(294, 19);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(74, 30);
+            this.ExitButton.Size = new System.Drawing.Size(75, 33);
             this.ExitButton.TabIndex = 9;
             this.ExitButton.Text = "Exit";
             this.ExitButton.UseVisualStyleBackColor = true;
@@ -195,9 +197,9 @@
             // StopButton
             // 
             this.StopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.StopButton.Location = new System.Drawing.Point(10, 79);
+            this.StopButton.Location = new System.Drawing.Point(103, 19);
             this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(74, 30);
+            this.StopButton.Size = new System.Drawing.Size(75, 32);
             this.StopButton.TabIndex = 9;
             this.StopButton.Text = "Stop";
             this.StopButton.UseVisualStyleBackColor = true;
@@ -206,9 +208,9 @@
             // StopExitButton
             // 
             this.StopExitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.StopExitButton.Location = new System.Drawing.Point(10, 130);
+            this.StopExitButton.Location = new System.Drawing.Point(200, 19);
             this.StopExitButton.Name = "StopExitButton";
-            this.StopExitButton.Size = new System.Drawing.Size(74, 31);
+            this.StopExitButton.Size = new System.Drawing.Size(73, 33);
             this.StopExitButton.TabIndex = 9;
             this.StopExitButton.Text = "Stop + Exit";
             this.StopExitButton.UseVisualStyleBackColor = true;
@@ -217,7 +219,7 @@
             // SelectDark
             // 
             this.SelectDark.AutoSize = true;
-            this.SelectDark.Location = new System.Drawing.Point(17, 85);
+            this.SelectDark.Location = new System.Drawing.Point(17, 160);
             this.SelectDark.Name = "SelectDark";
             this.SelectDark.Size = new System.Drawing.Size(81, 17);
             this.SelectDark.TabIndex = 5;
@@ -234,7 +236,7 @@
             this.ActivityLogListBox.Location = new System.Drawing.Point(21, 28);
             this.ActivityLogListBox.Margin = new System.Windows.Forms.Padding(0);
             this.ActivityLogListBox.Name = "ActivityLogListBox";
-            this.ActivityLogListBox.Size = new System.Drawing.Size(704, 236);
+            this.ActivityLogListBox.Size = new System.Drawing.Size(722, 236);
             this.ActivityLogListBox.TabIndex = 0;
             this.ActivityLogListBox.TabStop = false;
             this.ActivityLogListBox.MouseLeave += new System.EventHandler(this.ActivityLogListBox_MouseLeave);
@@ -242,7 +244,7 @@
             // UseEmbeddedOlproxy
             // 
             this.UseEmbeddedOlproxy.AutoSize = true;
-            this.UseEmbeddedOlproxy.Location = new System.Drawing.Point(430, 175);
+            this.UseEmbeddedOlproxy.Location = new System.Drawing.Point(17, 126);
             this.UseEmbeddedOlproxy.Name = "UseEmbeddedOlproxy";
             this.UseEmbeddedOlproxy.Size = new System.Drawing.Size(136, 17);
             this.UseEmbeddedOlproxy.TabIndex = 5;
@@ -265,12 +267,11 @@
             // 
             // OlproxyGroupBox
             // 
-            this.OlproxyGroupBox.Controls.Add(this.IsServer);
-            this.OlproxyGroupBox.Controls.Add(this.UseEmbeddedOlproxy);
+            this.OlproxyGroupBox.Controls.Add(this.textBox1);
+            this.OlproxyGroupBox.Controls.Add(this.label8);
             this.OlproxyGroupBox.Controls.Add(this.ServerName);
             this.OlproxyGroupBox.Controls.Add(this.ServerNotes);
             this.OlproxyGroupBox.Controls.Add(this.TrackerBaseUrl);
-            this.OlproxyGroupBox.Controls.Add(this.SignOff);
             this.OlproxyGroupBox.Controls.Add(this.OlproxyExecutable);
             this.OlproxyGroupBox.Controls.Add(this.label5);
             this.OlproxyGroupBox.Controls.Add(this.label3);
@@ -278,9 +279,9 @@
             this.OlproxyGroupBox.Controls.Add(this.label6);
             this.OlproxyGroupBox.Controls.Add(this.label4);
             this.OlproxyGroupBox.Controls.Add(this.OlproxyArgs);
-            this.OlproxyGroupBox.Location = new System.Drawing.Point(18, 143);
+            this.OlproxyGroupBox.Location = new System.Drawing.Point(18, 232);
             this.OlproxyGroupBox.Name = "OlproxyGroupBox";
-            this.OlproxyGroupBox.Size = new System.Drawing.Size(633, 213);
+            this.OlproxyGroupBox.Size = new System.Drawing.Size(759, 175);
             this.OlproxyGroupBox.TabIndex = 12;
             this.OlproxyGroupBox.TabStop = false;
             this.OlproxyGroupBox.Text = "Olproxy";
@@ -288,7 +289,7 @@
             // IsServer
             // 
             this.IsServer.AutoSize = true;
-            this.IsServer.Location = new System.Drawing.Point(430, 128);
+            this.IsServer.Location = new System.Drawing.Point(17, 79);
             this.IsServer.Name = "IsServer";
             this.IsServer.Size = new System.Drawing.Size(168, 17);
             this.IsServer.TabIndex = 8;
@@ -297,7 +298,7 @@
             // 
             // ServerName
             // 
-            this.ServerName.Location = new System.Drawing.Point(428, 38);
+            this.ServerName.Location = new System.Drawing.Point(428, 40);
             this.ServerName.Margin = new System.Windows.Forms.Padding(2);
             this.ServerName.Name = "ServerName";
             this.ServerName.Size = new System.Drawing.Size(152, 20);
@@ -309,12 +310,12 @@
             this.ServerNotes.Margin = new System.Windows.Forms.Padding(2);
             this.ServerNotes.Multiline = true;
             this.ServerNotes.Name = "ServerNotes";
-            this.ServerNotes.Size = new System.Drawing.Size(398, 68);
+            this.ServerNotes.Size = new System.Drawing.Size(730, 21);
             this.ServerNotes.TabIndex = 7;
             // 
             // TrackerBaseUrl
             // 
-            this.TrackerBaseUrl.Location = new System.Drawing.Point(428, 81);
+            this.TrackerBaseUrl.Location = new System.Drawing.Point(591, 40);
             this.TrackerBaseUrl.Margin = new System.Windows.Forms.Padding(2);
             this.TrackerBaseUrl.Name = "TrackerBaseUrl";
             this.TrackerBaseUrl.Size = new System.Drawing.Size(152, 20);
@@ -323,7 +324,7 @@
             // SignOff
             // 
             this.SignOff.AutoSize = true;
-            this.SignOff.Location = new System.Drawing.Point(430, 151);
+            this.SignOff.Location = new System.Drawing.Point(17, 103);
             this.SignOff.Name = "SignOff";
             this.SignOff.Size = new System.Drawing.Size(197, 17);
             this.SignOff.TabIndex = 6;
@@ -333,7 +334,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(425, 66);
+            this.label5.Location = new System.Drawing.Point(588, 24);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 13);
             this.label5.TabIndex = 0;
@@ -361,10 +362,13 @@
             // 
             this.OptionsGroupBox.Controls.Add(this.AutoStart);
             this.OptionsGroupBox.Controls.Add(this.SelectDark);
+            this.OptionsGroupBox.Controls.Add(this.IsServer);
+            this.OptionsGroupBox.Controls.Add(this.UseEmbeddedOlproxy);
             this.OptionsGroupBox.Controls.Add(this.UseTrayIcon);
-            this.OptionsGroupBox.Location = new System.Drawing.Point(458, 17);
+            this.OptionsGroupBox.Controls.Add(this.SignOff);
+            this.OptionsGroupBox.Location = new System.Drawing.Point(462, 18);
             this.OptionsGroupBox.Name = "OptionsGroupBox";
-            this.OptionsGroupBox.Size = new System.Drawing.Size(193, 120);
+            this.OptionsGroupBox.Size = new System.Drawing.Size(315, 192);
             this.OptionsGroupBox.TabIndex = 13;
             this.OptionsGroupBox.TabStop = false;
             this.OptionsGroupBox.Text = "Options";
@@ -372,9 +376,9 @@
             // LoggingGroupBox
             // 
             this.LoggingGroupBox.Controls.Add(this.ActivityLogListBox);
-            this.LoggingGroupBox.Location = new System.Drawing.Point(18, 362);
+            this.LoggingGroupBox.Location = new System.Drawing.Point(18, 413);
             this.LoggingGroupBox.Name = "LoggingGroupBox";
-            this.LoggingGroupBox.Size = new System.Drawing.Size(740, 276);
+            this.LoggingGroupBox.Size = new System.Drawing.Size(759, 276);
             this.LoggingGroupBox.TabIndex = 14;
             this.LoggingGroupBox.TabStop = false;
             this.LoggingGroupBox.Text = "Activity Log";
@@ -385,9 +389,9 @@
             this.ActionsGroupBox.Controls.Add(this.ExitButton);
             this.ActionsGroupBox.Controls.Add(this.StopButton);
             this.ActionsGroupBox.Controls.Add(this.StopExitButton);
-            this.ActionsGroupBox.Location = new System.Drawing.Point(659, 17);
+            this.ActionsGroupBox.Location = new System.Drawing.Point(18, 143);
             this.ActionsGroupBox.Name = "ActionsGroupBox";
-            this.ActionsGroupBox.Size = new System.Drawing.Size(99, 229);
+            this.ActionsGroupBox.Size = new System.Drawing.Size(428, 67);
             this.ActionsGroupBox.TabIndex = 15;
             this.ActionsGroupBox.TabStop = false;
             this.ActionsGroupBox.Text = "Actions";
@@ -398,11 +402,32 @@
             this.OverloadServerToolNotifyIcon.Visible = true;
             this.OverloadServerToolNotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OverloadServerToolNotifyIcon_MouseDoubleClick);
             // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.Location = new System.Drawing.Point(430, 83);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(1);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(313, 20);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.Text = "https://www.overloadmaps.com/data/mp.json";
+            this.textBox1.TextChanged += new System.EventHandler(this.OverloadExecutable_TextChanged);
+            this.textBox1.DoubleClick += new System.EventHandler(this.OverloadExecutable_MouseDoubleClick);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(427, 66);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(99, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Master maplist URL";
+            // 
             // OSTMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(780, 651);
+            this.ClientSize = new System.Drawing.Size(797, 703);
             this.Controls.Add(this.ActionsGroupBox);
             this.Controls.Add(this.LoggingGroupBox);
             this.Controls.Add(this.OptionsGroupBox);
@@ -463,6 +488,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NotifyIcon OverloadServerToolNotifyIcon;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label8;
     }
 }
 
