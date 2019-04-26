@@ -441,7 +441,7 @@ namespace olproxy
         {
             // -- Maestro change start --
             // AddMessage("olproxy " + Assembly.GetExecutingAssembly().GetName().Version.ToString(3) + " Ready.");
-            AddMessage("Olproxy " + Assembly.GetExecutingAssembly().GetName().Version.ToString(3) + " task started.");
+            AddMessage("Olproxy task started.");
             // AddMessage("Create/Join LAN Match in Overload and use server IP address as password");
             // AddMessage("(or start Overload server)");
             // -- Maestro change end --
