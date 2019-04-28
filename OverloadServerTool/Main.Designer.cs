@@ -49,6 +49,7 @@
             this.UseEmbeddedOlproxy = new System.Windows.Forms.CheckBox();
             this.OverloadGroupBox = new System.Windows.Forms.GroupBox();
             this.OlproxyGroupBox = new System.Windows.Forms.GroupBox();
+            this.UpdatingMaps = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.MapUpdateButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
@@ -65,11 +66,16 @@
             this.LoggingGroupBox = new System.Windows.Forms.GroupBox();
             this.ActionsGroupBox = new System.Windows.Forms.GroupBox();
             this.OverloadServerToolNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.OverloadRunning = new System.Windows.Forms.PictureBox();
+            this.OlproxyRunning = new System.Windows.Forms.PictureBox();
             this.OverloadGroupBox.SuspendLayout();
             this.OlproxyGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UpdatingMaps)).BeginInit();
             this.OptionsGroupBox.SuspendLayout();
             this.LoggingGroupBox.SuspendLayout();
             this.ActionsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.OverloadRunning)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OlproxyRunning)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -256,6 +262,7 @@
             // 
             // OverloadGroupBox
             // 
+            this.OverloadGroupBox.Controls.Add(this.OverloadRunning);
             this.OverloadGroupBox.Controls.Add(this.OverloadExecutable);
             this.OverloadGroupBox.Controls.Add(this.label1);
             this.OverloadGroupBox.Controls.Add(this.label2);
@@ -269,6 +276,8 @@
             // 
             // OlproxyGroupBox
             // 
+            this.OlproxyGroupBox.Controls.Add(this.OlproxyRunning);
+            this.OlproxyGroupBox.Controls.Add(this.UpdatingMaps);
             this.OlproxyGroupBox.Controls.Add(this.textBox1);
             this.OlproxyGroupBox.Controls.Add(this.MapUpdateButton);
             this.OlproxyGroupBox.Controls.Add(this.label8);
@@ -288,6 +297,18 @@
             this.OlproxyGroupBox.TabIndex = 12;
             this.OlproxyGroupBox.TabStop = false;
             this.OlproxyGroupBox.Text = "Olproxy";
+            // 
+            // UpdatingMaps
+            // 
+            this.UpdatingMaps.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.UpdatingMaps.Image = global::OverloadServerTool.Properties.Resources.arrows_blue_on_white;
+            this.UpdatingMaps.Location = new System.Drawing.Point(526, 64);
+            this.UpdatingMaps.Name = "UpdatingMaps";
+            this.UpdatingMaps.Size = new System.Drawing.Size(18, 18);
+            this.UpdatingMaps.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.UpdatingMaps.TabIndex = 10;
+            this.UpdatingMaps.TabStop = false;
+            this.UpdatingMaps.Visible = false;
             // 
             // textBox1
             // 
@@ -451,11 +472,37 @@
             this.OverloadServerToolNotifyIcon.Visible = true;
             this.OverloadServerToolNotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OverloadServerToolNotifyIcon_MouseDoubleClick);
             // 
+            // OverloadRunning
+            // 
+            this.OverloadRunning.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.OverloadRunning.Image = global::OverloadServerTool.Properties.Resources.arrows_blue_on_white;
+            this.OverloadRunning.Location = new System.Drawing.Point(52, -4);
+            this.OverloadRunning.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this.OverloadRunning.Name = "OverloadRunning";
+            this.OverloadRunning.Size = new System.Drawing.Size(22, 21);
+            this.OverloadRunning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.OverloadRunning.TabIndex = 10;
+            this.OverloadRunning.TabStop = false;
+            this.OverloadRunning.Visible = false;
+            // 
+            // OlproxyRunning
+            // 
+            this.OlproxyRunning.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.OlproxyRunning.Image = global::OverloadServerTool.Properties.Resources.arrows_blue_on_white;
+            this.OlproxyRunning.Location = new System.Drawing.Point(43, -4);
+            this.OlproxyRunning.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
+            this.OlproxyRunning.Name = "OlproxyRunning";
+            this.OlproxyRunning.Size = new System.Drawing.Size(22, 21);
+            this.OlproxyRunning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.OlproxyRunning.TabIndex = 10;
+            this.OlproxyRunning.TabStop = false;
+            this.OlproxyRunning.Visible = false;
+            // 
             // OSTMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(797, 703);
+            this.ClientSize = new System.Drawing.Size(822, 703);
             this.Controls.Add(this.ActionsGroupBox);
             this.Controls.Add(this.LoggingGroupBox);
             this.Controls.Add(this.OptionsGroupBox);
@@ -474,10 +521,13 @@
             this.OverloadGroupBox.PerformLayout();
             this.OlproxyGroupBox.ResumeLayout(false);
             this.OlproxyGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UpdatingMaps)).EndInit();
             this.OptionsGroupBox.ResumeLayout(false);
             this.OptionsGroupBox.PerformLayout();
             this.LoggingGroupBox.ResumeLayout(false);
             this.ActionsGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.OverloadRunning)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OlproxyRunning)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -520,6 +570,9 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox UseDLCLocationCheckBox;
         private System.Windows.Forms.Button MapUpdateButton;
+        private System.Windows.Forms.PictureBox UpdatingMaps;
+        private System.Windows.Forms.PictureBox OverloadRunning;
+        private System.Windows.Forms.PictureBox OlproxyRunning;
     }
 }
 

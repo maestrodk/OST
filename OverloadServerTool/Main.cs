@@ -165,19 +165,24 @@ namespace OverloadServerTool
                     {
                         if ((olproxyTask.KillFlag == false) && ((olproxyThread != null) && olproxyThread.IsAlive))
                         {
-                            OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = "Olproxy [running]"));
+                            //OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = "Olproxy [running]"));
+
+                            OlproxyRunning.Invoke(new Action(() => OlproxyRunning.Visible = true));
                         }
                         else
                         {
-                            OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = "Olproxy [stopped]"));
+                            //OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = "Olproxy [stopped]"));
+                            OlproxyRunning.Invoke(new Action(() => OlproxyRunning.Visible = false));
                         }
                     }
                     else
                     {
-                        OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = ((GetRunningProcess(olproxyName) != null) ? "Olproxy [running]" : "Olproxy [stopped]")));
+                        //OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = ((GetRunningProcess(olproxyName) != null) ? "Olproxy [running]" : "Olproxy [stopped]")));
+                        OlproxyRunning.Invoke(new Action(() => OlproxyRunning.Visible = (GetRunningProcess(olproxyName) != null)));
                     }
 
-                    OverloadGroupBox.Invoke(new Action(() => OverloadGroupBox.Text = ((GetRunningProcess(overloadName) != null) ? "Overload [running]" : "Overload [stopped]")));
+                    // OverloadGroupBox.Invoke(new Action(() => OverloadGroupBox.Text = ((GetRunningProcess(overloadName) != null) ? "Overload [running]" : "Overload [stopped]")));
+                    OverloadRunning.Invoke(new Action(() => OverloadRunning.Visible = ((GetRunningProcess(overloadName) != null))));
                 }
             }
         }
@@ -275,8 +280,12 @@ namespace OverloadServerTool
         /// </summary>
         private void UpdateMapThread()
         {
+            UpdatingMaps.Invoke(new Action(() => UpdatingMaps.Visible = true));
+
             VerboseLogMessage(String.Format("Checking for new/updated maps at https://www.overloadmaps.com."));
 
+
+            Thread.Sleep(5000);
             if (UseDLCLocationCheckBox.Enabled && UseDLCLocationCheckBox.Checked)
             {
                 VerboseLogMessage(String.Format("Overload DLC directory used for maps."));
@@ -288,8 +297,9 @@ namespace OverloadServerTool
                 mapManager.Update();
             }
 
-            VerboseLogMessage(String.Format($"Map check finished."));
+            VerboseLogMessage(String.Format($"Map check finished: {mapManager.Checked} maps, {mapManager.Created} created, {mapManager.Updated} updated."));
 
+            UpdatingMaps.Invoke(new Action(() => UpdatingMaps.Visible = false));
             MapUpdateButton.Invoke(new Action(() => MapUpdateButton.Enabled = true));
         }
 

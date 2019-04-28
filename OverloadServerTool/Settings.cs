@@ -217,6 +217,10 @@ namespace OverloadServerTool
 
                 activeTextBoxColor = Color.White;
                 inactiveTextBoxColor = Color.LightCoral;
+
+                UpdatingMaps.Image = global::OverloadServerTool.Properties.Resources.arrows_light_blue_on_grey;
+                OlproxyRunning.Image = global::OverloadServerTool.Properties.Resources.arrows_light_blue_on_grey;
+                OverloadRunning.Image = global::OverloadServerTool.Properties.Resources.arrows_light_blue_on_grey;
             }
             else
             {
@@ -226,6 +230,10 @@ namespace OverloadServerTool
             
                 activeTextBoxColor =  Color.Black;
                 inactiveTextBoxColor = Color.Coral;
+
+                UpdatingMaps.Image = global::OverloadServerTool.Properties.Resources.arrows_blue_on_white;
+                OlproxyRunning.Image = global::OverloadServerTool.Properties.Resources.arrows_blue_on_white;
+                OverloadRunning.Image = global::OverloadServerTool.Properties.Resources.arrows_blue_on_white;
             }
 
             // Set the active theme (recursively).

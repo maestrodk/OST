@@ -26,12 +26,27 @@ namespace OverloadServerTool
 
     public class OverloadMapManager
     {
-        private const string defaultOnlineMapList = @"https://www.overloadmaps.com/data/mp.json";
+        // URL for online map list JSON.
+        private string OnlineMapListUrl =  @"https://www.overloadmaps.com/data/mp.json";
 
+        // Default (and recommended) location for local maps.
+        private string ApplicationDataOverloadPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Revival\Overload";
+
+        // Optional local map location is Overload DLC (not recommended but used by some people so also supported).
+        private string OverloadDLCPath = null;
+
+        // Delegate for sending log messages to main application.
         public delegate void LogMessageDelegate(string message);
         private LogMessageDelegate logger = null;
         private LogMessageDelegate loggerError = null;
 
+        // These are updated after each map update check.
+        public int Checked = 0;
+        public int Created = 0;
+        public int Updated = 0;
+        public int Errors = 0;
+
+        // Set delegate for logging.
         public void SetLogger(LogMessageDelegate logger = null, LogMessageDelegate errorLogger = null)
         {
             this.logger = logger;
@@ -42,12 +57,14 @@ namespace OverloadServerTool
             }
         }
 
+        // Log an informational message.
         void LogMessage(string s)
         {
             logger?.Invoke(s);
             Debug.WriteLine(s);
         }
 
+        // Log an errir message.
         void LogErrorMessage(string s)
         {
             loggerError?.Invoke(s);
@@ -61,147 +78,118 @@ namespace OverloadServerTool
         /// <summary>
         /// Get online master map list.
         /// </summary>
-        public bool Update(string onlineMapList = null, string overloadDLCLocation = null)
+        /// <param name="mapListUrl">URL for online JSON list.</param>
+        /// <param name="dlcMaps">Path to local Overload DLC directory.</param>
+        /// <param name="applicationDataMaps">Path to local Overload application data directory.</param>
+        /// <returns></returns>
+        public bool Update(string mapListUrl = null, string dlcMaps = null, string applicationDataMaps = null)
         {
-            if (String.IsNullOrEmpty(onlineMapList)) onlineMapList = defaultOnlineMapList;
+            Checked = 0;
+            Created = 0;
+            Updated = 0;
+            Errors = 0;
 
-            string overloadMapLocation = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Revival\Overload";
-            
-            List<OverloadMap> master = new List<OverloadMap>();
+            // Check for override of default URL.
+            if (!String.IsNullOrEmpty(mapListUrl)) OnlineMapListUrl = mapListUrl;
+
+            // Don't use these overrides unless you absolutely have to.
+            if (!String.IsNullOrEmpty(dlcMaps)) OverloadDLCPath = dlcMaps;
+            if (!String.IsNullOrEmpty(applicationDataMaps)) ApplicationDataOverloadPath = applicationDataMaps;
+
+            List<OverloadMap> maps = new List<OverloadMap>();
 
             try
             {
-                // Make sure Revival Overload map directory exists.
-                Directory.CreateDirectory(overloadMapLocation);
-
-                // Make sure Revival DLC directory exists.
-                if (!String.IsNullOrEmpty(overloadDLCLocation)) Directory.CreateDirectory(overloadDLCLocation);
-
-                // Get base so we can construct full url to the online ZIP files.
-                Uri uri = new Uri(onlineMapList); 
+                // Get URL base so we can construct full URLs to the online map ZIP files.
+                Uri uri = new Uri(OnlineMapListUrl); 
                 string baseUrl = String.Concat(uri.Scheme, Uri.SchemeDelimiter, uri.Host); 
 
                 // Get map list and build internal map master list.
-                string json = new WebClient().DownloadString(onlineMapList);
-                dynamic mapList = JsonConvert.DeserializeObject(json);
+                string jsonMapList = new WebClient().DownloadString(OnlineMapListUrl);
+                dynamic mapList = JsonConvert.DeserializeObject(jsonMapList);
                 foreach (var map in mapList)
                 {
-                    string url = baseUrl + map.url;
-                    string time = map.mtime;
-                    string size = map.size;
-
-                    master.Add(new OverloadMap(url, UnixTimeStampToDateTime(Convert.ToDouble(time)), Convert.ToInt32(size)));
+                    maps.Add(new OverloadMap(baseUrl + map.url, UnixTimeStampToDateTime(Convert.ToDouble(map.mtime)), Convert.ToInt32(map.size)));
                 }
+
+                // Iterate master list and download all new/updated maps.
+                for (int i = 0; i < maps.Count;  i++) UpdateMap(maps[i]);
             }
             catch (Exception ex)
             {
                 LogErrorMessage(String.Format($"Cannot read master map list: {ex.Message}"));
-                return false;
             }
 
-            // Iterate master list and download all new/updated maps.
-            int ok = 0, bad = 0;
-            for (int i = 0; i < master.Count; i++)
-            {
-                if (UpdateMap(overloadMapLocation, overloadDLCLocation, master[i])) ok++;
-                else bad++;
-            }
-           return true;
-        }
-
-        private bool UpdateMap(string overloadMapLocation, string overloadDLCLocation, OverloadMap map)
-        {
-            Uri uri = new Uri(map.Url);
-            string mapZipName = uri.Segments[uri.Segments.Length - 1];
-
-            try
-            {
-                // Update map.
-                if (!String.IsNullOrEmpty(mapZipName) && mapZipName.ToLower().EndsWith(".zip"))
-                {
-                    string localDLCFileName = null;
-
-                    string localZipFileName = Path.Combine(overloadMapLocation, mapZipName);
-                    localZipFileName = WebUtility.UrlDecode(localZipFileName);
-
-                    bool updateDLC = false;
-                    bool update = false;
-
-                    // First the DLC location (if enabled).
-                    if (!String.IsNullOrEmpty(overloadDLCLocation))
-                    {
-                        localDLCFileName = Path.Combine(overloadDLCLocation, mapZipName);
-                        localDLCFileName = WebUtility.UrlDecode(localDLCFileName);
-                        updateDLC = UpdateMapFile(localDLCFileName, map);
-                    }
-
-                    // Now check the ProgramData Revival folder.
-                    update = UpdateMapFile(localZipFileName, map);
-
-                    // Check results.
-                    if (updateDLC)
-                    {
-                        LogMessage(String.Format($"Updating map (using DLC folder): {WebUtility.UrlDecode(mapZipName)}"));
-                        UpdateLocalMap(map.Url, localDLCFileName, map.DateTime);
-                    }
-                    else if (update)
-                    {
-                        LogMessage(String.Format($"Updating map: {WebUtility.UrlDecode(mapZipName)}"));
-                        UpdateLocalMap(map.Url, localZipFileName, map.DateTime);
-                    }
-                }
-
-                // No errors or map doesn't need updating.
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LogErrorMessage(String.Format($"Error updating map {mapZipName}: {ex.Message}"));
-                return false;
-            }
-        }
-
-        private bool UpdateMapFile(string localFileName, OverloadMap map)
-        {
-            string localDirectory = Path.GetDirectoryName(localFileName);
-            if (!Directory.Exists(localDirectory)) return false;
-
-            if (File.Exists(localFileName))
-            {
-                // Map ZIP file found, check date and size.
-                FileInfo fi = new FileInfo(localFileName);
-
-                if (fi.Length != map.Size) return true;
-                else if (fi.LastWriteTime != map.DateTime) return true;
-
-                return false;
-            }
-            else
-            {
-                // Directory exists but ZIP file does not.
-                return true;
-            }
+            return (Errors != 0) ? false : true;
         }
 
         /// <summary>
-        /// Download map ZIP to local directory and set local ZIP file time to match online map creation time (mtime).
+        /// Update a single Overload map.
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="localName"></param>
-        /// <param name="dateTime"></param>
-        private void UpdateLocalMap(string url, string localName, DateTime dateTime)
+        /// <param name="map">The map to update.</param>
+        /// <returns></returns>
+        private bool UpdateMap(OverloadMap map)
         {
+            if (String.IsNullOrEmpty(map.Url)) return false;
+
+            // Get the ZIP name from the URL.
+            Uri uri = new Uri(map.Url);
+            if (uri.Segments.Length < 2) return false;
+
+
+            // Get the ZIP file name from URL.
+            string mapZipName = uri.Segments[uri.Segments.Length - 1];
+            if (!mapZipName.ToLower().EndsWith(".zip")) return false;
+
+            Checked++;
+
+            string mapDirectoryPath = String.IsNullOrEmpty(OverloadDLCPath) ? ApplicationDataOverloadPath : OverloadDLCPath;
+            string mapZipFilePath = WebUtility.UrlDecode(Path.Combine(mapDirectoryPath, mapZipName));
+
+            // Create directory if it doesn't exist.
+            if (!Directory.Exists(mapDirectoryPath)) Directory.CreateDirectory(mapDirectoryPath);
+
+            // Check for new map file.
+            if (File.Exists(mapZipFilePath))
+            {
+                // Map found - compare date and size to online version.
+                FileInfo fi = new FileInfo(mapZipFilePath);
+                if ((fi.Length == map.Size) || (fi.LastWriteTime == map.DateTime)) return false;
+            }
+
+            // New map or map needs to be updated.            
             using (var client = new WebClient())
             {
                 try
                 {
-                    client.DownloadFile(url, localName);
-                    File.SetCreationTime(localName, dateTime);
-                    File.SetLastWriteTime(localName, dateTime);
+                    bool existingFile = File.Exists(mapZipFilePath);
+
+                    // Get the map from master.
+                    client.DownloadFile(map.Url, mapZipFilePath);
+
+                    // Set local files date and time.
+                    File.SetCreationTime(mapZipFilePath, map.DateTime);
+                    File.SetLastWriteTime(mapZipFilePath, map.DateTime);
+
+                    if (existingFile)
+                    {
+                        Updated++;
+                        LogMessage(String.Format($"Updating existing map {mapZipName}."));
+                    }
+                    else
+                    {
+                        Created++;
+                        LogMessage(String.Format($"Retrieving new map {mapZipName}."));
+                    }
+
+                    return true;
                 }
                 catch (Exception ex)
                 {
-                    LogErrorMessage(String.Format($"Error downloading map ZIP {localName}: {ex.Message}"));
+                    Errors++;
+
+                    LogErrorMessage(String.Format($"Error downloading {mapZipName}: {ex.Message}"));
+                    return false;
                 }
             }
         }
