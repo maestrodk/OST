@@ -203,5 +203,17 @@ namespace OverloadServerTool.Properties {
                 this["mapListUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseDLCDirectory {
+            get {
+                return ((bool)(this["UseDLCDirectory"]));
+            }
+            set {
+                this["UseDLCDirectory"] = value;
+            }
+        }
     }
 }

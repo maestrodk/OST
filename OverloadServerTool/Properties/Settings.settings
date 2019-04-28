@@ -47,5 +47,8 @@
     <Setting Name="mapListUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://www.overloadmaps.com/data/mp.json</Value>
     </Setting>
+    <Setting Name="UseDLCDirectory" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -385,11 +385,13 @@ namespace OverloadServerTool
         private void AutoTray_CheckedChanged(object sender, EventArgs e)
         {
             this.ShowInTaskbar = !UseTrayIcon.Checked;
+            TrayInsteadOfTaskBar = UseTrayIcon.Checked;
         }
 
         private void AutoStart_CheckedChanged(object sender, EventArgs e)
         {
             SetAutoStartup(AutoStart.Checked);
+            StartWithWindows = AutoStart.Checked;
         }
 
         private void ValidateSettings()
@@ -416,12 +418,14 @@ namespace OverloadServerTool
 
         private void OverloadExecutable_TextChanged(object sender, EventArgs e)
         {
+            OverloadPath = OverloadExecutable.Text;
             ValidateSettings();
             UpdateDLCLocation();
         }
 
         private void OlproxyExecutable_TextChanged(object sender, EventArgs e)
         {
+            OlproxyPath = OlproxyExecutable.Text;
             ValidateSettings();
         }
 
@@ -601,7 +605,7 @@ namespace OverloadServerTool
 
             SetTheme();
 
-            InfoLogMessage((DarkTheme) ? "Dark theme selected." : "Light theme selected selected.");
+            InfoLogMessage((DarkTheme) ? "Dark theme selected." : "Light theme selected.");
 
             // Unpause logging.
             if (listBoxLog != null) listBoxLog.Paused = false;
@@ -660,6 +664,8 @@ namespace OverloadServerTool
 
         private void UseEmbeddedOlproxy_CheckedChanged(object sender, EventArgs e)
         {
+            OlproxyEmbedded = UseEmbeddedOlproxy.Checked;
+
             InfoLogMessage((UseEmbeddedOlproxy.Checked) ? "Switching to embedded Olproxy." : "Switching to standalone Olproxy application.");
 
             if (UseEmbeddedOlproxy.Checked == true)
@@ -804,6 +810,26 @@ namespace OverloadServerTool
                         break;
                 }
             }
+        }
+
+        private void UseDLCLocationCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            UseDLCDirectory = UseDLCLocationCheckBox.Checked;
+        }
+
+        private void OverloadArgs_TextChanged(object sender, EventArgs e)
+        {
+            OverloadParameters = OverloadArgs.Text;
+        }
+
+        private void IsServer_CheckedChanged(object sender, EventArgs e)
+        {
+            OlproxyIsServer = IsServer.Checked;
+        }
+
+        private void SignOff_CheckedChanged(object sender, EventArgs e)
+        {
+            OlproxySignOff = SignOff.Checked;
         }
     }
 }

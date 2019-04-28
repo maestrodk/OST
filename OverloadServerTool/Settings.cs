@@ -74,6 +74,12 @@ namespace OverloadServerTool
         {
             get { return Properties.Settings.Default.OlproxyParameters; }
             set { Properties.Settings.Default.OlproxyParameters = value; }
+        }        
+
+        public bool UseDLCDirectory
+        {
+            get { return Properties.Settings.Default.UseDLCDirectory; }
+            set { Properties.Settings.Default.UseDLCDirectory = value; }
         }
 
         public bool DarkTheme

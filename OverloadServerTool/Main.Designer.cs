@@ -114,6 +114,7 @@
             this.OverloadArgs.Name = "OverloadArgs";
             this.OverloadArgs.Size = new System.Drawing.Size(386, 20);
             this.OverloadArgs.TabIndex = 2;
+            this.OverloadArgs.TextChanged += new System.EventHandler(this.OverloadArgs_TextChanged);
             // 
             // label3
             // 
@@ -431,6 +432,7 @@
             this.IsServer.TabIndex = 8;
             this.IsServer.Text = "Make server visible on tracker";
             this.IsServer.UseVisualStyleBackColor = true;
+            this.IsServer.CheckedChanged += new System.EventHandler(this.IsServer_CheckedChanged);
             // 
             // SignOff
             // 
@@ -441,6 +443,7 @@
             this.SignOff.TabIndex = 6;
             this.SignOff.Text = "Remove inactive server from tracker";
             this.SignOff.UseVisualStyleBackColor = true;
+            this.SignOff.CheckedChanged += new System.EventHandler(this.SignOff_CheckedChanged);
             // 
             // OptionsGroupBox
             // 
@@ -469,6 +472,7 @@
             this.UseDLCLocationCheckBox.TabIndex = 5;
             this.UseDLCLocationCheckBox.Text = "Use Overload DLC directory for maps";
             this.UseDLCLocationCheckBox.UseVisualStyleBackColor = true;
+            this.UseDLCLocationCheckBox.CheckedChanged += new System.EventHandler(this.UseDLCLocationCheckBox_CheckedChanged);
             this.UseDLCLocationCheckBox.Click += new System.EventHandler(this.UseDLCLocationCheckBox_Click);
             // 
             // LoggingGroupBox
