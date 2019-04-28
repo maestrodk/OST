@@ -270,7 +270,7 @@ namespace OverloadServerTool
             {
                 if (SelectDark.Checked)
                 {
-                    control.BackColor = Color.FromArgb(64, 64, 64);
+                    control.BackColor = Color.FromArgb(72, 72, 72); 
                     control.ForeColor = activeTextBoxColor;
                 }
                 else
@@ -286,7 +286,8 @@ namespace OverloadServerTool
             }
             else if (control is Button)
             {
-                ValidateButton(control);
+                // StartButton colors are controlled by ActivityBackgroundMonitor.
+                if (control != StartButton) ValidateButton(control);
             }
         }
 
@@ -294,17 +295,17 @@ namespace OverloadServerTool
         /// Override default enabled/disabled colors for a Button control.
         /// </summary>
         /// <param name="control"></param>
-        void ValidateButton(Control control)
+        public void ValidateButton(Control control)
         {
             if (control.Enabled)
             {
-                control.BackColor = (DarkTheme) ? Color.FromArgb(128, 128, 128) : Color.FromArgb(200, 200, 200);
-                control.ForeColor = (DarkTheme) ? Color.FromArgb(255, 255, 255) : Color.FromArgb(64, 64, 64);
+                control.BackColor = (DarkTheme) ? DarkButtonEnabledBackColor : LightButtonEnabledBackColor;
+                control.ForeColor = (DarkTheme) ? DarkButtonEnabledForeColor: LightButtonEnabledForeColor;
             }
             else
             {
-                control.BackColor = (DarkTheme) ? Color.FromArgb(96, 96, 96) : Color.FromArgb(96, 96, 96);
-                control.ForeColor = (DarkTheme) ? Color.FromArgb(255, 255, 255) : Color.FromArgb(96, 96, 96);
+                control.BackColor = (DarkTheme) ? DarkButtonDisabledBackColor : LightButtonDisabledBackColor;
+                control.ForeColor = (DarkTheme) ? DarkButtonDisabledForeColor : LightButtonDisabledForeColor;
             }
         }
     }

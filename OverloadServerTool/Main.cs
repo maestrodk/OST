@@ -16,6 +16,21 @@ namespace OverloadServerTool
     {
         private bool DebugLogging = false;
 
+        Color DarkButtonEnabledBackColor = Color.FromArgb(128, 128, 128);
+        Color LightButtonEnabledBackColor = Color.FromArgb(200, 200, 200);
+
+        Color DarkButtonEnabledForeColor = Color.FromArgb(255, 255, 255);
+        Color LightButtonEnabledForeColor = Color.FromArgb(64, 64, 64);
+
+        Color DarkButtonDisabledBackColor = Color.FromArgb(96, 96, 96);
+        Color LightButtonDisabledBackColor = Color.FromArgb(224, 224, 224);
+
+        Color DarkButtonDisabledForeColor = Color.FromArgb(255, 255, 255);
+        Color LightButtonDisabledForeColor = Color.FromArgb(192, 192, 192);
+
+        Color DarkTextBoxBackColor = Color.FromArgb(72, 72, 72);
+        Color LightTextBoxBackColor = Color.White;
+
         private bool autoStart = false;
         private ListBoxLog listBoxLog;
 
@@ -65,10 +80,24 @@ namespace OverloadServerTool
             olproxyConfig.Add("notes", ServerNotes.Text);
             
             // Start logging (default is paused state, will be enabled when startup is complete).
-            InitLogging(ActivityLogListBox);
+            InitLogging(ActivityLogListBox, DarkTextBoxBackColor, LightTextBoxBackColor);
 
             // Reflect selected theme settings.
             SetTheme();
+        }
+
+        private void InitLogging(ListBox listBox, Color darkBackColor, Color lightBackColor)
+        {
+            listBoxLog = new ListBoxLog(listBox);
+            listBoxLog.Paused = true;
+
+            // Make ListBoxLog aware of the selected theme setting.
+            listBoxLog.SetDarkTheme(DarkTheme, darkBackColor, lightBackColor);
+
+            // Start background monitor for periodic log updates.
+            Thread thread = new Thread(ActivityBackgroundMonitor);
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         /// <summary>
@@ -165,24 +194,41 @@ namespace OverloadServerTool
                     {
                         if ((olproxyTask.KillFlag == false) && ((olproxyThread != null) && olproxyThread.IsAlive))
                         {
-                            //OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = "Olproxy [running]"));
-
                             OlproxyRunning.Invoke(new Action(() => OlproxyRunning.Visible = true));
                         }
                         else
                         {
-                            //OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = "Olproxy [stopped]"));
                             OlproxyRunning.Invoke(new Action(() => OlproxyRunning.Visible = false));
                         }
                     }
                     else
                     {
-                        //OlproxyGroupBox.Invoke(new Action(() => OlproxyGroupBox.Text = ((GetRunningProcess(olproxyName) != null) ? "Olproxy [running]" : "Olproxy [stopped]")));
                         OlproxyRunning.Invoke(new Action(() => OlproxyRunning.Visible = (GetRunningProcess(olproxyName) != null)));
                     }
 
-                    // OverloadGroupBox.Invoke(new Action(() => OverloadGroupBox.Text = ((GetRunningProcess(overloadName) != null) ? "Overload [running]" : "Overload [stopped]")));
                     OverloadRunning.Invoke(new Action(() => OverloadRunning.Visible = ((GetRunningProcess(overloadName) != null))));
+                }
+
+                if (!OlproxyRunning.Visible || !OverloadRunning.Visible)
+                {
+                    try { StartButton.Invoke(new Action(() => StartButton.Enabled = true));} catch { }
+                }
+
+                try
+                {
+                    if (StartButton.Enabled)
+                    {
+                        StartButton.Invoke(new Action(() => StartButton.BackColor = (DarkTheme) ? DarkButtonEnabledBackColor : LightButtonEnabledBackColor));
+                        StartButton.Invoke(new Action(() => StartButton.ForeColor = (DarkTheme) ? DarkButtonEnabledForeColor : LightButtonEnabledForeColor));
+                    }
+                    else
+                    {
+                        StartButton.Invoke(new Action(() => StartButton.BackColor = (DarkTheme) ? DarkButtonDisabledBackColor : LightButtonDisabledBackColor));
+                        StartButton.Invoke(new Action(() => StartButton.ForeColor = (DarkTheme) ? DarkButtonDisabledForeColor : LightButtonDisabledForeColor));
+                    }
+                }
+                catch
+                {
                 }
             }
         }
@@ -347,17 +393,6 @@ namespace OverloadServerTool
         {
             TestSetTextBoxColor(OverloadExecutable);
             TestSetTextBoxColor(OlproxyExecutable);
-          
-            if (((OlproxyExecutable.ForeColor == activeTextBoxColor) || UseEmbeddedOlproxy.Checked) && (OverloadExecutable.ForeColor == activeTextBoxColor))
-            {
-                // Path to Overload application is OK.
-                // And we should use either the embedded Olproxy or the standalone application is OK.
-                StartButton.Enabled = true;
-            }
-            else
-            {
-                StartButton.Enabled = false;
-            }
 
             ValidateButton(StartButton);
         }
@@ -434,10 +469,18 @@ namespace OverloadServerTool
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            if (RestartOlproxy()) RestartOverload();
+            StartButton.Enabled = false;
+
+            Thread startOverloadThread = new Thread(RestartOverload);
+            startOverloadThread.IsBackground = true;
+            startOverloadThread.Start();
+
+            Thread startOlproxyThread = new Thread(RestartOlproxy);
+            startOlproxyThread.IsBackground = true;
+            startOlproxyThread.Start();
         }
 
-        private bool RestartOlproxy()
+        private void RestartOlproxy()
         {
             VerboseLogMessage("Starting up Olproxy.");
 
@@ -456,7 +499,7 @@ namespace OverloadServerTool
             }
 
             // If set to use external Olproxy and one instance is running the exit with OK status.
-            if ((running == 1) && (UseEmbeddedOlproxy.Checked == false)) return true;
+            if ((running == 1) && (UseEmbeddedOlproxy.Checked == false)) return;
 
             // If we get here either embedded Olproxy is selected or 0/more than one instance of the external Olproxy is running.
             KillRunningProcess(name);
@@ -466,7 +509,7 @@ namespace OverloadServerTool
             {
                 if ((olproxyTask.KillFlag == false) && ((olproxyThread != null) && olproxyThread.IsAlive)) KillOlproxyThread();
                 StartOlproxyThread();
-                return true;
+                return;
             }
 
             // Update JSON configuration file for standalone Olproxy (first check to make sure folder exists).
@@ -481,23 +524,9 @@ namespace OverloadServerTool
             appStart.StartInfo = new ProcessStartInfo(olproxyExe, OlproxyArgs.Text);
             appStart.StartInfo.WorkingDirectory = olproxyWorkingDirectory;
             appStart.Start();
-
-            // Allow some time for the application to initialize.
-            int maxWait = 60;
-            while (String.IsNullOrEmpty(appStart.MainWindowTitle) && (maxWait-- > 0))
-            {
-                Thread.Sleep(250);   // 40 x 250 = 15000 = 10 seconds.
-                appStart.Refresh();
-            }
-
-            // Check if application was started succesfully.
-            if (GetRunningProcess(name) != null) return true;
-
-            ErrorLogMessage("Unable to start Olproxy.");
-            return false;
         }
 
-        private bool RestartOverload()
+        private void RestartOverload()
         {
             VerboseLogMessage("Starting up Overload");
 
@@ -510,7 +539,7 @@ namespace OverloadServerTool
                 if (process.ProcessName.ToLower() == name) running++;
             }
 
-            if (running == 1) return true;
+            if (running == 1) return;
 
             // If more than one is running we kill the all and start fresh instance.
             if (running > 1) KillRunningProcess(name);
@@ -520,24 +549,6 @@ namespace OverloadServerTool
             appStart.StartInfo = new ProcessStartInfo(Path.GetFileName(OverloadExecutable.Text), OverloadArgs.Text);
             appStart.StartInfo.WorkingDirectory = Path.GetDirectoryName(OverloadExecutable.Text);
             appStart.Start();
-
-            // Allow some time for the application to initialize.
-            int maxWait = 60;
-            while (String.IsNullOrEmpty(appStart.MainWindowTitle) && (maxWait-- > 0))
-            {
-                Thread.Sleep(250);   // 40 x 250 = 15000 = 10 seconds.
-                appStart.Refresh();
-            }
-
-            // Check if application was started succesfully.
-            if (GetRunningProcess(name) != null)
-            {
-                InfoLogMessage("Overload started.");
-                return true;
-            }
-
-            ErrorLogMessage("Unable to start Overload!");
-            return false;
         }
 
         // Return process if instance is active otherwise return null.
@@ -581,7 +592,7 @@ namespace OverloadServerTool
             if (listBoxLog != null)
             {
                 listBoxLog.Paused = true;
-                listBoxLog.SetDarkTheme(DarkTheme = SelectDark.Checked);
+                listBoxLog.SetDarkTheme(DarkTheme = SelectDark.Checked, DarkTextBoxBackColor, LightTextBoxBackColor);
             }
 
             SetTheme();
@@ -615,6 +626,11 @@ namespace OverloadServerTool
         private void StopButton_Click(object sender, EventArgs e)
         {
             VerboseLogMessage("Stopping active Olproxy and Overload tasks.");
+
+            ValidateButton(StartButton);
+
+            // This removes focus from StopButton.
+            label1.Focus();
 
             string olproxyName = Path.GetFileNameWithoutExtension(OlproxyExecutable.Text).ToLower();
             string overloadName = Path.GetFileNameWithoutExtension(OverloadExecutable.Text).ToLower();

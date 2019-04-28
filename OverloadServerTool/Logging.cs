@@ -6,23 +6,6 @@ using System.Windows.Forms;
 
 namespace OverloadServerTool
 {
-    public partial class OSTMainForm : Form
-    {
-        private void InitLogging(ListBox listBox)
-        {
-            listBoxLog = new ListBoxLog(listBox);
-            listBoxLog.Paused = true;
-
-            // Make ListBoxLog aware of the selected theme setting.
-            listBoxLog.SetDarkTheme(DarkTheme);
-
-            // Start background monitor for periodic log updates.
-            Thread thread = new Thread(ActivityBackgroundMonitor);
-            thread.IsBackground = true;
-            thread.Start();
-        }
-    }
-
     public enum Level : int
     {
         Critical = 0,
@@ -58,9 +41,14 @@ namespace OverloadServerTool
 
         private bool isDarkTheme = false;
 
-        public void SetDarkTheme(bool dark)
+        private Color darkBackColor;
+        private Color lightBackColor;
+
+        public void SetDarkTheme(bool dark, Color darkBackColor, Color lightBackColor)
         {
-            isDarkTheme = dark;
+            this.isDarkTheme = dark;
+            this.darkBackColor = darkBackColor;
+            this.lightBackColor = lightBackColor;
         }
 
         private void DrawItemHandler(object sender, DrawItemEventArgs e)
@@ -71,17 +59,13 @@ namespace OverloadServerTool
 
                 if (listBox.Focused == false) listBox.ClearSelected();
 
-                if (isDarkTheme)
-                {
-                    listBox.BackColor = Color.FromArgb(64, 64, 64);
-                }
-                else
-                {
-                    listBox.BackColor = Color.White;
-                }
+                if (isDarkTheme) listBox.BackColor = darkBackColor;
+                else listBox.BackColor = lightBackColor;
 
                 e.DrawBackground();
-                e.DrawFocusRectangle();
+
+                //e.DrawFocusRectangle();
+                ControlPaint.DrawBorder(Graphics.FromHwnd(listBox.Handle), listBox.ClientRectangle, (isDarkTheme) ? Color.White : Color.Black, ButtonBorderStyle.Solid);
 
                 LogEvent logEvent = listBox.Items[e.Index] as LogEvent;
 
