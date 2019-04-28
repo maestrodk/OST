@@ -300,6 +300,9 @@ namespace OverloadServerTool
             InfoLogMessage("Overload Server Tool " + Assembly.GetExecutingAssembly().GetName().Version.ToString(3) + " by Søren Michélsen.");
             InfoLogMessage("Olproxy by Arne de Bruijn.");
 
+            // Auto-update maps on startup.
+            MapUpdateButton_Click(null, null);
+
             // Check for startup options.
             OverloadServerToolNotifyIcon.Icon = Properties.Resources.OST;
             this.ShowInTaskbar = !UseTrayIcon.Checked;
@@ -319,6 +322,8 @@ namespace OverloadServerTool
                 this.WindowState = FormWindowState.Normal;
                 this.ShowInTaskbar = true;
             }
+
+            Defocus();
         }
 
         /// <summary>
@@ -521,6 +526,7 @@ namespace OverloadServerTool
             Process appStart = new Process();
             appStart.StartInfo = new ProcessStartInfo(olproxyExe, OlproxyArgs.Text);
             appStart.StartInfo.WorkingDirectory = olproxyWorkingDirectory;
+            appStart.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
             appStart.Start();
         }
 
@@ -627,8 +633,7 @@ namespace OverloadServerTool
 
             ValidateButton(StartButton);
 
-            // This removes focus from StopButton.
-            label1.Focus();
+            Defocus();        
 
             string olproxyName = Path.GetFileNameWithoutExtension(OlproxyExecutable.Text).ToLower();
             string overloadName = Path.GetFileNameWithoutExtension(OverloadExecutable.Text).ToLower();
@@ -637,6 +642,14 @@ namespace OverloadServerTool
             KillRunningProcess(olproxyName);
 
             if ((olproxyTask.KillFlag == false) && ((olproxyThread != null) && olproxyThread.IsAlive)) KillOlproxyThread();
+        }
+
+        /// <summary>
+        /// Unfocus all controls.
+        /// </summary>
+        private void Defocus()
+        {
+            label1.Focus();
         }
 
         private void StopExitButton_Click(object sender, EventArgs e)
