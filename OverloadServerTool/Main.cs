@@ -330,8 +330,6 @@ namespace OverloadServerTool
 
             VerboseLogMessage(String.Format("Checking for new/updated maps at https://www.overloadmaps.com."));
 
-
-            Thread.Sleep(5000);
             if (UseDLCLocationCheckBox.Enabled && UseDLCLocationCheckBox.Checked)
             {
                 VerboseLogMessage(String.Format("Overload DLC directory used for maps."));
