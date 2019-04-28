@@ -101,7 +101,7 @@ namespace OverloadServerTool
                         break;
                 }
 
-                if (logEvent.Level == Level.Critical)  e.Graphics.FillRectangle(new SolidBrush(Color.Red), e.Bounds);
+                if (logEvent.Level == Level.Critical) e.Graphics.FillRectangle(new SolidBrush(Color.Red), e.Bounds);
 
                 e.Graphics.DrawString(FormatALogEventMessage(logEvent, messageFormat), new Font("Lucida Console", 8.25f, FontStyle.Regular), new SolidBrush(color), e.Bounds);
             }
@@ -235,17 +235,22 @@ namespace OverloadServerTool
 
             canAddLogEntry = listBox.IsHandleCreated;
 
-            this.listBox.SelectionMode = SelectionMode.MultiExtended;
+            //this.listBox.SelectionMode = SelectionMode.MultiExtended;
+            this.listBox.SelectionMode = SelectionMode.None;
+            this.listBox.Enabled = false;
 
             this.listBox.HandleCreated += OnHandleCreated;
             this.listBox.HandleDestroyed += OnHandleDestroyed;
+
             this.listBox.DrawItem += DrawItemHandler;
-            this.listBox.KeyDown += KeyDownHandler;
 
-            MenuItem[] menuItems = new MenuItem[] { new MenuItem("Copy", new EventHandler(CopyMenuOnClickHandler)) };
+            
+            // this.listBox.KeyDown += KeyDownHandler;
 
-            this.listBox.ContextMenu = new ContextMenu(menuItems);
-            this.listBox.ContextMenu.Popup += new EventHandler(CopyMenuPopupHandler);
+            // MenuItem[] menuItems = new MenuItem[] { new MenuItem("Copy", new EventHandler(CopyMenuOnClickHandler)) };
+
+            // this.listBox.ContextMenu = new ContextMenu(menuItems);
+            // this.listBox.ContextMenu.Popup += new EventHandler(CopyMenuPopupHandler);
 
             this.listBox.DrawMode = DrawMode.OwnerDrawFixed;
         }
@@ -290,11 +295,12 @@ namespace OverloadServerTool
 
                 listBox.HandleCreated -= OnHandleCreated;
                 listBox.HandleCreated -= OnHandleDestroyed;
-                listBox.DrawItem -= DrawItemHandler;
-                listBox.KeyDown -= KeyDownHandler;
 
-                listBox.ContextMenu.MenuItems.Clear();
-                listBox.ContextMenu.Popup -= CopyMenuPopupHandler;
+                listBox.DrawItem -= DrawItemHandler;
+                //listBox.KeyDown -= KeyDownHandler;
+
+                //listBox.ContextMenu.MenuItems.Clear();
+                //listBox.ContextMenu.Popup -= CopyMenuPopupHandler;
                 listBox.ContextMenu = null;
 
                 listBox.Items.Clear();

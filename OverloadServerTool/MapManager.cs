@@ -145,6 +145,7 @@ namespace OverloadServerTool
 
             string mapDirectoryPath = String.IsNullOrEmpty(OverloadDLCPath) ? ApplicationDataOverloadPath : OverloadDLCPath;
             string mapZipFilePath = WebUtility.UrlDecode(Path.Combine(mapDirectoryPath, mapZipName));
+            string mapZipDisplayName = WebUtility.UrlDecode(mapZipName).Trim();
 
             // Create directory if it doesn't exist.
             if (!Directory.Exists(mapDirectoryPath)) Directory.CreateDirectory(mapDirectoryPath);
@@ -174,12 +175,12 @@ namespace OverloadServerTool
                     if (existingFile)
                     {
                         Updated++;
-                        LogMessage(String.Format($"Updating existing map {mapZipName}."));
+                        LogMessage(String.Format($"Updating existing map {mapZipDisplayName}."));
                     }
                     else
                     {
                         Created++;
-                        LogMessage(String.Format($"Retrieving new map {mapZipName}."));
+                        LogMessage(String.Format($"Retrieving new map {mapZipDisplayName}."));
                     }
 
                     return true;
@@ -188,7 +189,7 @@ namespace OverloadServerTool
                 {
                     Errors++;
 
-                    LogErrorMessage(String.Format($"Error downloading {mapZipName}: {ex.Message}"));
+                    LogErrorMessage(String.Format($"Error downloading {mapZipDisplayName}: {ex.Message}"));
                     return false;
                 }
             }

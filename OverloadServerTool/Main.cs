@@ -694,7 +694,7 @@ namespace OverloadServerTool
         /// <param name="e"></param>
         private void ActivityLogListBox_MouseLeave(object sender, EventArgs e)
         {
-            ActivityLogListBox.SetSelected(0, false);
+            //ActivityLogListBox.SetSelected(0, false);
         }
 
         /// <summary>
@@ -705,7 +705,7 @@ namespace OverloadServerTool
         private void Main_MouseEnter(object sender, EventArgs e)
         {
             // For some reason this doesn't work?
-            ActivityLogListBox.SetSelected(0, false);
+            //ActivityLogListBox.SetSelected(0, false);
         }
 
         private void Main_Resize(object sender, EventArgs e)
