@@ -15,6 +15,7 @@ namespace OverloadServerTool
         public Theme theme = Theme.GetDarkTheme;
 
         private bool autoStart = false;
+
         private ListViewLogger logger = null;
 
         private olproxy.Program olproxyTask = null;
@@ -57,7 +58,7 @@ namespace OverloadServerTool
 
             foreach (string a in args)
             {
-                //if (a.ToLower().Contains("-launched")) autoStart = true;
+                if (a.ToLower().Contains("-launched")) autoStart = true;
             }
 
             // Init map manager.
@@ -154,7 +155,6 @@ namespace OverloadServerTool
             }
         }
 
-
         private void Main_Load(object sender, EventArgs e)
         {
             LogDebugMessage("Main_Load()");
@@ -164,7 +164,6 @@ namespace OverloadServerTool
             // it is safe to start any of the .exe files.
             theme = (DarkTheme) ? Theme.GetDarkTheme : Theme.GetLightTheme;
             UpdateTheme(theme);
-            //ValidateSettings();
 
             // Focus the first pane.
             paneController.SwitchToPane(PaneSelectMain);
@@ -198,23 +197,20 @@ namespace OverloadServerTool
             if (OlmodAutoUpdate) UpdateOlmod_Click(null, null);
 
             // Check for startup options.
-            // OverloadServerToolNotifyIcon.Icon = Properties.Resources.OST;
-            this.ShowInTaskbar = true;
+            NotifyIcon.Icon = Properties.Resources.OST;
+
+            this.ShowInTaskbar = !UseTrayIcon.Checked;
+            NotifyIcon.Visible = UseTrayIcon.Checked;
 
             if (autoStart)
             {
-                if (false)
-                {
-                    this.ShowInTaskbar = false;
-                    this.WindowState = FormWindowState.Minimized;
-                    //OverloadServerToolNotifyIcon.Visible = true;
-                }
+                if (UseTrayIcon.Checked) WindowState = FormWindowState.Minimized;
                 StartButton_Click(null, null);
             }
             else
             {
                 this.WindowState = FormWindowState.Normal;
-                this.ShowInTaskbar = true;
+                //OverloadServerToolNotifyIcon.Visible = false;
             }
 
             Defocus();
@@ -225,6 +221,7 @@ namespace OverloadServerTool
 
         [DllImport("shell32.dll")]
         static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr pszPath);
+
         public static string SpecialFolderLocalLowPath
         {
             get
@@ -820,10 +817,10 @@ namespace OverloadServerTool
             if (WindowState == FormWindowState.Minimized)
             {
                 // Tray or minimize to task bar?
-                if (false)
+                if (UseTrayIcon.Checked)
                 {
                     Hide();
-                    OverloadServerToolNotifyIcon.Visible = true;
+                    NotifyIcon.Visible = true;
                 }
             }
         }
@@ -831,7 +828,6 @@ namespace OverloadServerTool
         private void OverloadServerToolNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             Show();
-            OverloadServerToolNotifyIcon.Visible = false;
             WindowState = FormWindowState.Normal;
         }
 
@@ -1423,18 +1419,25 @@ namespace OverloadServerTool
 
         private void IsServer_CheckedChanged(object sender, EventArgs e)
         {
-
+            OlproxyIsServer = IsServer.Checked;
         }
 
         private void SignOff_CheckedChanged(object sender, EventArgs e)
         {
-
+            OlproxySignOff = SignOff.Checked;
         }
 
         private void AutoStartCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             SetAutoStartup(AutoStartCheckBox.Checked);
             StartWithWindows = AutoStartCheckBox.Checked;
+        }
+
+        private void UseTrayIcon_CheckedChanged(object sender, EventArgs e)
+        {
+            TrayInsteadOfTaskBar = UseTrayIcon.Checked;
+            ShowInTaskbar = !UseTrayIcon.Checked;
+            NotifyIcon.Visible = UseTrayIcon.Checked;
         }
     }
 }

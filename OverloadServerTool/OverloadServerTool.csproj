@@ -38,7 +38,7 @@
     <StartupObject>OverloadServerTool.OverloadServerToolApplication</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>oct_logo_484_12.ico</ApplicationIcon>
+    <ApplicationIcon>OST.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -157,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="oct_logo_484_12.ico" />
+    <Content Include="OST.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arrows blue on white 2.gif" />

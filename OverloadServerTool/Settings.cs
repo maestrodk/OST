@@ -352,6 +352,7 @@ namespace OverloadServerTool
 
             AutoStartCheckBox.Checked = StartWithWindows;
             UseTrayIcon.Checked = TrayInsteadOfTaskBar;
+
             ServerName.Text = OlproxyServerName;
             ServerNotes.Text = OlproxyNotes;
             TrackerBaseUrl.Text = OlproxyTrackerBaseUrl;

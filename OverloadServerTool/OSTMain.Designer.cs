@@ -51,10 +51,10 @@
             this.UseDLCLocationCheckBox = new System.Windows.Forms.CheckBox();
             this.AutoUpdateMapsCheckBox = new System.Windows.Forms.CheckBox();
             this.LoggingGroupBox = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.ListViewPanel = new System.Windows.Forms.Panel();
             this.ActivityListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.OverloadServerToolNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.OnlyUpdateExistingMapsCheckBox = new System.Windows.Forms.CheckBox();
             this.PilotsListBox = new System.Windows.Forms.ListBox();
             this.MapDeleteButton = new System.Windows.Forms.Button();
@@ -114,7 +114,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UpdatingMaps)).BeginInit();
             this.InstalledMapsGroupBox.SuspendLayout();
             this.LoggingGroupBox.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.ListViewPanel.SuspendLayout();
             this.PaneMain.SuspendLayout();
             this.PaneMaps.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -378,7 +378,7 @@
             // 
             // LoggingGroupBox
             // 
-            this.LoggingGroupBox.Controls.Add(this.panel1);
+            this.LoggingGroupBox.Controls.Add(this.ListViewPanel);
             this.LoggingGroupBox.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.LoggingGroupBox.Location = new System.Drawing.Point(15, 13);
             this.LoggingGroupBox.Name = "LoggingGroupBox";
@@ -387,16 +387,16 @@
             this.LoggingGroupBox.TabStop = false;
             this.LoggingGroupBox.Text = "Activity Log";
             // 
-            // panel1
+            // ListViewPanel
             // 
-            this.panel1.BackColor = System.Drawing.Color.DimGray;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.ActivityListView);
-            this.panel1.Location = new System.Drawing.Point(15, 19);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(426, 237);
-            this.panel1.TabIndex = 0;
+            this.ListViewPanel.BackColor = System.Drawing.Color.DimGray;
+            this.ListViewPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ListViewPanel.Controls.Add(this.ActivityListView);
+            this.ListViewPanel.Location = new System.Drawing.Point(15, 19);
+            this.ListViewPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.ListViewPanel.Name = "ListViewPanel";
+            this.ListViewPanel.Size = new System.Drawing.Size(426, 237);
+            this.ListViewPanel.TabIndex = 0;
             // 
             // ActivityListView
             // 
@@ -420,13 +420,13 @@
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Width = 500;
+            this.columnHeader1.Width = 2000;
             // 
-            // OverloadServerToolNotifyIcon
+            // NotifyIcon
             // 
-            this.OverloadServerToolNotifyIcon.Text = "Overload Server Tool";
-            this.OverloadServerToolNotifyIcon.Visible = true;
-            this.OverloadServerToolNotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OverloadServerToolNotifyIcon_MouseDoubleClick);
+            this.NotifyIcon.Text = "Overload Server Tool";
+            this.NotifyIcon.Visible = true;
+            this.NotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OverloadServerToolNotifyIcon_MouseDoubleClick);
             // 
             // OnlyUpdateExistingMapsCheckBox
             // 
@@ -900,10 +900,11 @@
             this.UseTrayIcon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.UseTrayIcon.Location = new System.Drawing.Point(38, 213);
             this.UseTrayIcon.Name = "UseTrayIcon";
-            this.UseTrayIcon.Size = new System.Drawing.Size(98, 17);
+            this.UseTrayIcon.Size = new System.Drawing.Size(88, 17);
             this.UseTrayIcon.TabIndex = 23;
-            this.UseTrayIcon.Text = "Minimize to tray";
+            this.UseTrayIcon.Text = "Use tray icon";
             this.UseTrayIcon.UseVisualStyleBackColor = true;
+            this.UseTrayIcon.CheckedChanged += new System.EventHandler(this.UseTrayIcon_CheckedChanged);
             // 
             // groupBox6
             // 
@@ -1100,8 +1101,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "OSTMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Overload Server Tool";
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.Resize += new System.EventHandler(this.Main_Resize);
@@ -1112,7 +1113,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UpdatingMaps)).EndInit();
             this.InstalledMapsGroupBox.ResumeLayout(false);
             this.LoggingGroupBox.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.ListViewPanel.ResumeLayout(false);
             this.PaneMain.ResumeLayout(false);
             this.PaneMain.PerformLayout();
             this.PaneMaps.ResumeLayout(false);
@@ -1159,7 +1160,7 @@
         private System.Windows.Forms.GroupBox OverloadGroupBox;
         private System.Windows.Forms.GroupBox InstalledMapsGroupBox;
         private System.Windows.Forms.GroupBox LoggingGroupBox;
-        private System.Windows.Forms.NotifyIcon OverloadServerToolNotifyIcon;
+        private System.Windows.Forms.NotifyIcon NotifyIcon;
         private System.Windows.Forms.TextBox OnlineMapJsonUrl;
         private System.Windows.Forms.CheckBox UseDLCLocationCheckBox;
         private System.Windows.Forms.PictureBox UpdatingMaps;
@@ -1170,7 +1171,7 @@
         private System.Windows.Forms.CheckBox UseOlmodCheckBox;
         private System.Windows.Forms.ListView ActivityListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel ListViewPanel;
         private System.Windows.Forms.CheckBox OnlyUpdateExistingMapsCheckBox;
         private System.Windows.Forms.Button MapDeleteButton;
         private System.Windows.Forms.Button MapHideButton;
