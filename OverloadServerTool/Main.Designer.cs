@@ -250,7 +250,6 @@
             this.ActivityLogListBox.Size = new System.Drawing.Size(708, 234);
             this.ActivityLogListBox.TabIndex = 0;
             this.ActivityLogListBox.TabStop = false;
-            this.ActivityLogListBox.MouseLeave += new System.EventHandler(this.ActivityLogListBox_MouseLeave);
             // 
             // UseEmbeddedOlproxy
             // 
@@ -521,7 +520,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
-            this.MouseEnter += new System.EventHandler(this.Main_MouseEnter);
             this.Resize += new System.EventHandler(this.Main_Resize);
             this.OverloadGroupBox.ResumeLayout(false);
             this.OverloadGroupBox.PerformLayout();

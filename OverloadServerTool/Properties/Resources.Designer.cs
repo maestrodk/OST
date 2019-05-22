@@ -19,7 +19,7 @@ namespace OverloadServerTool.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -73,6 +73,16 @@ namespace OverloadServerTool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrows_blue_on_white_2 {
+            get {
+                object obj = ResourceManager.GetObject("arrows_blue_on_white_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap arrows_light_blue_on_grey {
             get {
                 object obj = ResourceManager.GetObject("arrows_light_blue_on_grey", resourceCulture);
@@ -81,12 +91,12 @@ namespace OverloadServerTool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Icon OST {
+        internal static System.Drawing.Bitmap arrows_light_blue_on_grey_2 {
             get {
-                object obj = ResourceManager.GetObject("OST", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                object obj = ResourceManager.GetObject("arrows_light_blue_on_grey_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

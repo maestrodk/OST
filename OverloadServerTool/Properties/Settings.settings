@@ -9,13 +9,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DarkTheme" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="StartWithWindows" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="StartMinimized" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="TrayOnly" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -29,14 +23,47 @@
     <Setting Name="EmbeddedOlproxy" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="isServer" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="MapListUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://www.overloadmaps.com/data/mp.json</Value>
     </Setting>
-    <Setting Name="signOff" Type="System.Boolean" Scope="User">
+    <Setting Name="UseOlproxy" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="UseOlmod" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AutoUpdateMaps" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UseDLCPath" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="OlmodPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DebugLogging" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UpdateOnlyExistingMaps" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="PassGameDirToOlmod" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AutoUpdateOlmod" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AutoUpdateOST" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StartWithWindows" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StartMinimized" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="trackerBaseUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://olproxy.otl.gg</Value>
+      <Value Profile="(Default)">https://olproxy.otl.gg</Value>
     </Setting>
     <Setting Name="serverName" Type="System.String" Scope="User">
       <Value Profile="(Default)">My Overload Server</Value>
@@ -44,10 +71,10 @@
     <Setting Name="notes" Type="System.String" Scope="User">
       <Value Profile="(Default)">Information about your server, such as geographical location, hardware, bandwidth etc.</Value>
     </Setting>
-    <Setting Name="mapListUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://www.overloadmaps.com/data/mp.json</Value>
+    <Setting Name="isServer" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="UseDLCDirectory" Type="System.Boolean" Scope="User">
+    <Setting Name="signOff" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

@@ -16,21 +16,6 @@ namespace OverloadServerTool
     {
         private bool DebugLogging = false;
 
-        Color DarkButtonEnabledBackColor = Color.FromArgb(128, 128, 128);
-        Color LightButtonEnabledBackColor = Color.FromArgb(200, 200, 200);
-
-        Color DarkButtonEnabledForeColor = Color.FromArgb(255, 255, 255);
-        Color LightButtonEnabledForeColor = Color.FromArgb(64, 64, 64);
-
-        Color DarkButtonDisabledBackColor = Color.FromArgb(96, 96, 96);
-        Color LightButtonDisabledBackColor = Color.FromArgb(224, 224, 224);
-
-        Color DarkButtonDisabledForeColor = Color.FromArgb(255, 255, 255);
-        Color LightButtonDisabledForeColor = Color.FromArgb(192, 192, 192);
-
-        Color DarkTextBoxBackColor = Color.FromArgb(72, 72, 72);
-        Color LightTextBoxBackColor = Color.White;
-
         private bool autoStart = false;
         private ListBoxLog listBoxLog;
 
@@ -691,27 +676,6 @@ namespace OverloadServerTool
                     RestartOlproxy();
                 }
             }
-        }
-
-        /// <summary>
-        /// Ünselect listbox item if mouse leaves the listbox.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ActivityLogListBox_MouseLeave(object sender, EventArgs e)
-        {
-            //ActivityLogListBox.SetSelected(0, false);
-        }
-
-        /// <summary>
-        /// Show selected listbox item if mouse (re)enters the listbox.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Main_MouseEnter(object sender, EventArgs e)
-        {
-            // For some reason this doesn't work?
-            //ActivityLogListBox.SetSelected(0, false);
         }
 
         private void Main_Resize(object sender, EventArgs e)

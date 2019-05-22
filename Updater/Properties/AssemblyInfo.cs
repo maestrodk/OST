@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OverloadMapUpdater")]
+[assembly: AssemblyTitle("Overload Server Tool Updater")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OverloadMapUpdater")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyProduct("Overload Server Tool Updater")]
+[assembly: AssemblyCopyright("Copyright ©  2019 Søren Michélsen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7ccc4926-cd37-4dfa-ad9c-a4097204b0c0")]
+[assembly: Guid("4f436f3f-d8ac-474b-960c-9c3813c1d457")]
 
 // Version information for an assembly consists of the following four values:
 //

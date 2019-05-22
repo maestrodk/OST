@@ -12,7 +12,7 @@ namespace OverloadServerTool.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -49,37 +49,13 @@ namespace OverloadServerTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool DarkTheme {
             get {
                 return ((bool)(this["DarkTheme"]));
             }
             set {
                 this["DarkTheme"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool StartWithWindows {
-            get {
-                return ((bool)(this["StartWithWindows"]));
-            }
-            set {
-                this["StartWithWindows"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool StartMinimized {
-            get {
-                return ((bool)(this["StartMinimized"]));
-            }
-            set {
-                this["StartMinimized"] = value;
             }
         }
         
@@ -133,31 +109,163 @@ namespace OverloadServerTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool isServer {
+        [global::System.Configuration.DefaultSettingValueAttribute("https://www.overloadmaps.com/data/mp.json")]
+        public string MapListUrl {
             get {
-                return ((bool)(this["isServer"]));
+                return ((string)(this["MapListUrl"]));
             }
             set {
-                this["isServer"] = value;
+                this["MapListUrl"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool signOff {
+        public bool UseOlproxy {
             get {
-                return ((bool)(this["signOff"]));
+                return ((bool)(this["UseOlproxy"]));
             }
             set {
-                this["signOff"] = value;
+                this["UseOlproxy"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://olproxy.otl.gg")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseOlmod {
+            get {
+                return ((bool)(this["UseOlmod"]));
+            }
+            set {
+                this["UseOlmod"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoUpdateMaps {
+            get {
+                return ((bool)(this["AutoUpdateMaps"]));
+            }
+            set {
+                this["AutoUpdateMaps"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseDLCPath {
+            get {
+                return ((bool)(this["UseDLCPath"]));
+            }
+            set {
+                this["UseDLCPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OlmodPath {
+            get {
+                return ((string)(this["OlmodPath"]));
+            }
+            set {
+                this["OlmodPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DebugLogging {
+            get {
+                return ((bool)(this["DebugLogging"]));
+            }
+            set {
+                this["DebugLogging"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UpdateOnlyExistingMaps {
+            get {
+                return ((bool)(this["UpdateOnlyExistingMaps"]));
+            }
+            set {
+                this["UpdateOnlyExistingMaps"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PassGameDirToOlmod {
+            get {
+                return ((bool)(this["PassGameDirToOlmod"]));
+            }
+            set {
+                this["PassGameDirToOlmod"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoUpdateOlmod {
+            get {
+                return ((bool)(this["AutoUpdateOlmod"]));
+            }
+            set {
+                this["AutoUpdateOlmod"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoUpdateOST {
+            get {
+                return ((bool)(this["AutoUpdateOST"]));
+            }
+            set {
+                this["AutoUpdateOST"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StartWithWindows {
+            get {
+                return ((bool)(this["StartWithWindows"]));
+            }
+            set {
+                this["StartWithWindows"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StartMinimized {
+            get {
+                return ((bool)(this["StartMinimized"]));
+            }
+            set {
+                this["StartMinimized"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://olproxy.otl.gg")]
         public string trackerBaseUrl {
             get {
                 return ((string)(this["trackerBaseUrl"]));
@@ -194,25 +302,25 @@ namespace OverloadServerTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://www.overloadmaps.com/data/mp.json")]
-        public string mapListUrl {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isServer {
             get {
-                return ((string)(this["mapListUrl"]));
+                return ((bool)(this["isServer"]));
             }
             set {
-                this["mapListUrl"] = value;
+                this["isServer"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseDLCDirectory {
+        public bool signOff {
             get {
-                return ((bool)(this["UseDLCDirectory"]));
+                return ((bool)(this["signOff"]));
             }
             set {
-                this["UseDLCDirectory"] = value;
+                this["signOff"] = value;
             }
         }
     }
