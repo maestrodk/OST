@@ -33,3 +33,5 @@ OST is a Windows front end that makes it a bit easier
 - Autostart option (if your Windows box is set to user autologin)
 
 - Minimizes to tray option
+
+- Auto-update feature
