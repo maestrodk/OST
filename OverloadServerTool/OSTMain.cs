@@ -183,7 +183,7 @@ namespace OverloadServerTool
 
             // Announce ourself.
             Info("Overload Server Tool " + Assembly.GetExecutingAssembly().GetName().Version.ToString(3) + " by Søren Michélsen.");
-            Info("Olproxy 0.2.1 code by Arne de Bruijn.");
+            Info("Olproxy 0.3.0 code by Arne de Bruijn.");
 
             // Start background monitor for periodic log updates.
             Thread thread = new Thread(ActivityBackgroundMonitor);

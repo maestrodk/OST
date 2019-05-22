@@ -289,8 +289,8 @@ namespace OverloadServerTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Information about your server, such as geographical location, hardware, bandwidth" +
-            " etc.")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Change these notes to give information about your server, such as geographical lo" +
+            "cation, hardware, bandwidth, etc.")]
         public string notes {
             get {
                 return ((string)(this["notes"]));

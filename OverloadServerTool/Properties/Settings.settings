@@ -69,7 +69,7 @@
       <Value Profile="(Default)">My Overload Server</Value>
     </Setting>
     <Setting Name="notes" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Information about your server, such as geographical location, hardware, bandwidth etc.</Value>
+      <Value Profile="(Default)">Change these notes to give information about your server, such as geographical location, hardware, bandwidth, etc.</Value>
     </Setting>
     <Setting Name="isServer" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
