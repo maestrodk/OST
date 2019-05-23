@@ -924,6 +924,7 @@
             this.TrackerBaseUrl.Name = "TrackerBaseUrl";
             this.TrackerBaseUrl.Size = new System.Drawing.Size(189, 20);
             this.TrackerBaseUrl.TabIndex = 11;
+            this.TrackerBaseUrl.TextChanged += new System.EventHandler(this.TrackerBaseUrl_TextChanged);
             // 
             // groupBox7
             // 
@@ -944,6 +945,7 @@
             this.ServerNotes.Name = "ServerNotes";
             this.ServerNotes.Size = new System.Drawing.Size(420, 21);
             this.ServerNotes.TabIndex = 23;
+            this.ServerNotes.TextChanged += new System.EventHandler(this.ServerNotes_TextChanged);
             // 
             // ServerInfoGroupBox
             // 
@@ -963,6 +965,7 @@
             this.ServerName.Name = "ServerName";
             this.ServerName.Size = new System.Drawing.Size(172, 20);
             this.ServerName.TabIndex = 10;
+            this.ServerName.TextChanged += new System.EventHandler(this.ServerName_TextChanged);
             // 
             // IsServer
             // 

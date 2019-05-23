@@ -1439,5 +1439,20 @@ namespace OverloadServerTool
             ShowInTaskbar = !UseTrayIcon.Checked;
             NotifyIcon.Visible = UseTrayIcon.Checked;
         }
+
+        private void ServerName_TextChanged(object sender, EventArgs e)
+        {
+            OlproxyServerName = ServerName.Text;
+        }
+
+        private void ServerNotes_TextChanged(object sender, EventArgs e)
+        {
+            OlproxyNotes = ServerNotes.Text;
+        }
+
+        private void TrackerBaseUrl_TextChanged(object sender, EventArgs e)
+        {
+            OlproxyTrackerBaseUrl = TrackerBaseUrl.Text;
+        }
     }
 }
