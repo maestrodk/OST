@@ -91,6 +91,7 @@ namespace OverloadServerTool
 
             // Prepare embedded OlproxyProgram instance before attempting to start thread.
             olproxyTask = new olproxy.Program();
+
             olproxyTask.SetLogger(Info);
 
             // Set logging for map manager.
@@ -100,11 +101,11 @@ namespace OverloadServerTool
             olmodManager = new OlmodManager(Info, Error);
 
             // Create properties for Olproxy thread (will be update from TextBox fields whenever Olproxy is restarted).
-            olproxyConfig.Add("isServer", false);
-            olproxyConfig.Add("signOff", false);
-            olproxyConfig.Add("trackerBaseUrl", "");
-            olproxyConfig.Add("serverName", "");
-            olproxyConfig.Add("notes", "");
+            olproxyConfig.Add("isServer", IsServer.Checked);
+            olproxyConfig.Add("signOff", SignOff.Checked);
+            olproxyConfig.Add("trackerBaseUrl", TrackerBaseUrl.Text);
+            olproxyConfig.Add("serverName", ServerName.Text);
+            olproxyConfig.Add("notes", ServerNotes.Text);
         }
 
         /// <summary>
@@ -301,19 +302,20 @@ namespace OverloadServerTool
             olproxyTask.Run(new string[1] { OverloadArgs.Text }, UpdateOlproxyConfig());
         }
 
-        /// <summary> 
+        /// <summary>
         /// Refresh and return Olproxy configuration object.
         /// </summary>
         /// <returns>A dictionary object matching MJDict</returns>
         private Dictionary<string, object> UpdateOlproxyConfig()
         {
-            olproxyConfig["isServer"] = false;
-            olproxyConfig["signOff"] = false;
-            olproxyConfig["trackerBaseUrl"] = "";
-            olproxyConfig["serverName"] = "";
-            olproxyConfig["notes"] = "";
+            olproxyConfig["isServer"] = IsServer.Checked;
+            olproxyConfig["signOff"] = SignOff.Checked;
+            olproxyConfig["trackerBaseUrl"] = TrackerBaseUrl.Text;
+            olproxyConfig["serverName"] = ServerName.Text;
+            olproxyConfig["notes"] = ServerNotes.Text;
             return olproxyConfig;
         }
+
 
         /// <summary>
         /// Start emnbedded Olproxy thread.
