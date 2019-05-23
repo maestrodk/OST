@@ -79,8 +79,6 @@ namespace OverloadServerTool
 
                     // Fix version numbers so they are both in xx.yy.zz format (3 components and numbers only).
                     string newVersion = OverloadServerToolApplication.VersionStringFix(release.Version);
-                    string[] newVersionSplit = newVersion.Split(".".ToCharArray());
-                    if (newVersionSplit.Length > 3) newVersion = newVersionSplit[0] + "." + newVersionSplit[1] + "." + newVersionSplit[2];
 
                     string currentVersion = null;
                     using (var process = Process.GetCurrentProcess()) currentVersion = OverloadServerToolApplication.GetFileVersion(process.MainModule.FileName);

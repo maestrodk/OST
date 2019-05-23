@@ -183,7 +183,7 @@ namespace OverloadServerTool
 
             // Announce ourself.
             Info("Overload Server Tool " + Assembly.GetExecutingAssembly().GetName().Version.ToString(3) + " by Søren Michélsen.");
-            Info("Olproxy 0.3.0 code by Arne de Bruijn.");
+            Info("Olproxy 0.3.0 by Arne de Bruijn.");
 
             // Start background monitor for periodic log updates.
             Thread thread = new Thread(ActivityBackgroundMonitor);
@@ -195,6 +195,9 @@ namespace OverloadServerTool
 
             // Check if we should auto-update Olmod on startup.
             if (OlmodAutoUpdate) UpdateOlmod_Click(null, null);
+
+            if (OverloadServerToolApplication.ValidFileName(OlmodPath, true)) Info($"{OlmodVersionInfo}");
+            else Info("Olmod not foundo.");
 
             // Check for startup options.
             NotifyIcon.Icon = Properties.Resources.OST;
@@ -1374,16 +1377,13 @@ namespace OverloadServerTool
             }
 
             // Check if update is required. We use the ZIP date to stamp Olmod.exe
-            if (OverloadServerToolApplication.ValidFileName(OlmodPath, true))
+            if ((OverloadServerToolApplication.ValidFileName(OlmodPath, true)) && (new FileInfo(OlmodPath).CreationTimeUtc == latest.Created))
             {
-                if (new FileInfo(OlmodPath).CreationTimeUtc == latest.Created)
-                {
-                    Info("Olmod is up to date.");
-                    return;
-                }
+                if (sender != null) Info("Already using the latest Olmod version.");
+                return;
             }
 
-            Info("Download and installing latest Olmod release from Github.");
+            Info("Installing latest Olmod release from Github.");
 
             try
             {
@@ -1395,6 +1395,16 @@ namespace OverloadServerTool
             finally
             {
                 ValidateSettings();
+            }
+        }
+
+        private string OlmodVersionInfo
+        {
+            get
+            {
+                string olmodVersion = OverloadServerToolApplication.GetFileVersion(OlmodPath);
+                olmodVersion = OverloadServerToolApplication.VersionStringFix(olmodVersion);
+                return String.Format($"Olmod {olmodVersion} by Arne de Bruijn.");
             }
         }
 
